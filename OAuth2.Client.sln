@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth2.Client", "OAuth2.Client\OAuth2.Client.csproj", "{405B2B20-D48B-42C2-B32B-B0DDA5BC7ED1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A80348D5-3A65-4F55-BE81-AA377C4EC02E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		logo.png = logo.png
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth2.Client.XUnitTest", "OAuth2.Client.XUnitTest\OAuth2.Client.XUnitTest.csproj", "{973CFFB8-1B00-41ED-9531-E9B3F939F562}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth2.Client.TestWeb", "OAuth2.Client.TestWeb\OAuth2.Client.TestWeb.csproj", "{D8F5E532-CE98-4DAB-9C30-E5401EC8064C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{405B2B20-D48B-42C2-B32B-B0DDA5BC7ED1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{405B2B20-D48B-42C2-B32B-B0DDA5BC7ED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{405B2B20-D48B-42C2-B32B-B0DDA5BC7ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{405B2B20-D48B-42C2-B32B-B0DDA5BC7ED1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{973CFFB8-1B00-41ED-9531-E9B3F939F562}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{973CFFB8-1B00-41ED-9531-E9B3F939F562}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{973CFFB8-1B00-41ED-9531-E9B3F939F562}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{973CFFB8-1B00-41ED-9531-E9B3F939F562}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8F5E532-CE98-4DAB-9C30-E5401EC8064C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8F5E532-CE98-4DAB-9C30-E5401EC8064C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8F5E532-CE98-4DAB-9C30-E5401EC8064C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8F5E532-CE98-4DAB-9C30-E5401EC8064C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0302055-273A-471D-A42A-5896C18657A7}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,122 @@
+﻿@using OAuth2.Client;
+@using OAuth2.Client.Models;
+@model ClientsModel;
+@{
+    ViewData["Title"]           = "Home Page";
+
+    var hasCurrent              = Model!.Current!=null;
+    var hasFinal                = hasCurrent && (Model!.User!=null || Model!.Log.Count>0);
+    var stateValue              = Model!.StateValue ?? ("State:"+Guid.NewGuid());
+}
+
+@functions
+{
+    private void RenderMsg(string txt)
+    {
+        <div class="alert alert-warning" role="alert"><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
+            <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
+            </svg> @txt</div>
+    }
+
+    private void RenderImg(string? url)
+    {
+        if (string.IsNullOrEmpty(url)) return;
+
+        <img src="@url"/>
+    }
+}
+
+<div class="text-center">
+    <h1 class="display-3 mb-4">Welcome</h1>
+</div>
+<div class="d-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+    <h2 class="display-6 p-3 m-0 text-secondary @(hasCurrent ? "panel-shadow" : "")">Configured clients</h2>
+    <h2 class="display-6 p-3 m-0 text-secondary @(hasFinal ? "panel-shadow" : "")">Selected client</h2>
+    <h2 class="display-6 p-3 m-0 text-secondary">User info</h2>
+    <div class="p-3 @(hasCurrent ? "panel-shadow" : "") d-flex flex-column gap-1">
+        @foreach (var c in Model!.Clients)
+        {
+            <a class="btn @(c==Model.Current ? "btn-primary disabled active" : "btn-primary")" href="/@c.Name">@c.Name</a>
+        }
+    </div>
+    <div class="p-3 @(hasFinal ? "panel-shadow" : "")">
+        @if (hasCurrent)
+        {
+            var opt             = ((OAuth2Based<UserInfo>)Model.Current!).Options;
+            var validOpt        = !string.IsNullOrEmpty(opt.ClientID) && opt.ClientID!="--- From appsettings.secret.json ---";
+            <form>
+                @if (!validOpt)
+                {
+                    <div class="alert alert-danger" role="alert">Configure ClientID/ClientSecret first.</div>
+                }
+
+                <div class="form-label text-primary">ClientID</div>      <div class="form-control wrap-any mb-3">@opt.ClientID</div>
+                <div class="form-label text-primary">ClientSecret</div>  <div class="form-control wrap-any mb-3"><span class="secret">@opt.ClientSecret</span></div>
+                <div class="form-label text-primary">Scope</div>         <div class="form-control wrap-any mb-3">@opt.Scope</div>
+                <div class="form-label text-primary">RedirectURI</div>   <div class="form-control wrap-any mb-3">@opt.RedirectURI</div>
+                <div class="form-label text-primary">State value</div>   <div class="form-control wrap-any mb-3">@stateValue</div>
+
+                @if(validOpt)
+                {
+                    <div class="d-flex justify-content-center mt-3">
+                        <a href="@await Model.Current!.GetLoginURIAsync(stateValue)" class="btn btn-primary">Login</a>
+                    </div>
+                }
+            </form>
+        } else
+        {
+            RenderMsg("Select client");
+        }
+    </div>
+    <div class="p-3">
+        @if (Model.Error!=null)
+        {
+            <div class="alert alert-danger" role="alert">@Model.Error</div>
+        }
+        @if (Model.User!=null)
+        {
+            var user            = Model.User!;
+            <div class="form-label text-primary">ProviderName</div> <div class="form-control wrap-any mb-3">@user.ProviderName</div>
+            <div class="form-label text-primary">ID</div>           <div class="form-control wrap-any mb-3">@user.ID</div>
+            <div class="form-label text-primary">FirstName</div>    <div class="form-control wrap-any mb-3">@user.FirstName</div>
+            <div class="form-label text-primary">LastName</div>     <div class="form-control wrap-any mb-3">@user.LastName</div>
+            <div class="form-label text-primary">Email</div>        <div class="form-control wrap-any mb-3">@user.Email</div>
+            <div class="form-label text-primary">Avatar</div>       <div class="form-control mb-3 text-center">@{RenderImg(user.AvatarURL);}</div>
+        } else if (hasCurrent)
+        {
+            RenderMsg("Press \"Login\"");
+        } else
+        {
+            RenderMsg("Select client and press \"Login\"");
+        }
+
+        @if (Model.Log.Count>0)
+        {
+            <div class="mt-3 mb-3">@foreach (var l in Model.Log)
+            {
+                if (l.StartsWith(">>>"))
+                {
+                    <pre class="mb-1 wrap-any req"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+  <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+</svg>@l.Substring(3)</pre>
+                } else if (l.StartsWith("<<<"))
+                {
+                    <pre class="mb-1 wrap-any resp"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
+  <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+</svg>@l.Substring(3)</pre>
+                } else if (l.StartsWith("FAIL:"))
+                {
+                    <pre class="mb-1 wrap-any alert-danger fail">@l</pre>
+                } else if (l.StartsWith("@"))
+                {
+                    <pre class="mb-1 wrap-any alert-warning stack">@l.Substring(1)</pre>
+                } else
+                {
+                    <pre class="mb-1 wrap-any">@l</pre>
+                }
+            }</div>
+        }
+    </div>
+</div>

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Version>0.1.0</Version>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<RepositoryUrl>https://github.com/ETCDema/OAuth2.Client</RepositoryUrl>
+		<PackageTags>oauth2 github google microsoft yandex vk</PackageTags>
+		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+		<PackageId>Dm.$(AssemblyName)</PackageId>
+		<Authors>Dema</Authors>
+		<Description>Allows you to authenticate a user through GitHub, Google, VK, Microsoft Live, Yandex in just two method calls and get information about the user in a unified form.</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/ETCDema/OAuth2.Client</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>logo.png</PackageIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\logo.png" Pack="true" PackagePath="\" />
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.13" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+		<PackageReference Include="RestSharp" Version="107.1.1" />
+	</ItemGroup>
+
+</Project>
