@@ -7,7 +7,7 @@ namespace OAuth2.Client.Models
 {
 	public class TokensData
 	{
-		private Dictionary<string, string> _vals;
+		private readonly Dictionary<string, string> _vals;
 
 		public TokensData(JsonElement root)
 		{
@@ -38,9 +38,9 @@ namespace OAuth2.Client.Models
 			return _vals.TryGetValue(n, out var val) ? val : null;
 		}
 
-		public TokensData Add(string n, string v)
+		public TokensData Add(string n, string? v)
 		{
-			_vals.Add(n, v);
+			if (v!=null) _vals.Add(n, v);
 			return this;
 		}
 

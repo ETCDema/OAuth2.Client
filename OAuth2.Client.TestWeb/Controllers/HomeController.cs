@@ -9,13 +9,6 @@ namespace OAuth2.Client.TestWeb.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly ILogger<HomeController> _logger;
-
-		public HomeController(ILogger<HomeController> logger)
-		{
-			_logger = logger;
-		}
-
 		[Route("/{cname?}")]
 		public IActionResult Index(string? cname = null)
 		{
@@ -52,13 +45,13 @@ namespace OAuth2.Client.TestWeb.Controllers
 
 		private ClientsModel _createModel(string? cname, string? state)
 		{
-			var m				= new ClientsModel(HttpContext.RequestServices.GetServices<IClient>());
-			m.StateValue        = state;
+			var m 				= new ClientsModel(HttpContext.RequestServices.GetServices<IClient>())
+			{
+				StateValue      = state
+			};
 
 			if (!string.IsNullOrEmpty(cname))
-			{
 				m.Current		= m.Clients.FirstOrDefault(c => c.Name == cname);
-			}
 
 			return m;
 		}

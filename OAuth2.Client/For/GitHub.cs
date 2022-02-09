@@ -26,7 +26,7 @@ namespace OAuth2.Client.For
 
 		protected override RestClient NewAccessCodeClient()
 		{
-			return _client ?? (_client = new RestClient(NewOptions("https://github.com")));
+			return _client ??= new RestClient(NewOptions("https://github.com"));
 		}
 
 		protected override RestClient NewAccessTokenClient()
@@ -70,7 +70,7 @@ namespace OAuth2.Client.For
 
 				// Добавим в основные данные найденный почтовый адрес
 				var data        = ctx.Content!;
-				mainContent.Add("#email", _find(data, ".primary") ?? _find(data, ".verified") ?? data.TryGet("0.email"));
+				mainContent.Add("#email", GitHub<TUserInfo>._find(data, ".primary") ?? GitHub<TUserInfo>._find(data, ".verified") ?? data.TryGet("0.email"));
 
 				// Вернем обратно основные данные
 				ctx.RawContent	= mainRContent;
@@ -78,7 +78,7 @@ namespace OAuth2.Client.For
 			}
 		}
 
-		private string? _find(TokensData data, string attr)
+		private static string? _find(TokensData data, string attr)
 		{
 			var i				= 0;
 			string? v;

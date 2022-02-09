@@ -26,7 +26,7 @@ namespace OAuth2.Client.For
 
 		protected override RestClient NewAccessCodeClient()
 		{
-			return _client ?? (_client = new RestClient(NewOptions("https://oauth.vk.com")));
+			return _client ??= new RestClient(NewOptions("https://oauth.vk.com"));
 		}
 
 		protected override RestClient NewAccessTokenClient()

@@ -51,7 +51,7 @@ namespace OAuth2.Client.XUnitTest.Core
 			return Task.FromResult(response);
 		}
 
-		private string _reqToString(HttpRequestMessage req)
+		private static string _reqToString(HttpRequestMessage req)
 		{
 			var reqTxt			= "Headers: [ "+req.Headers.ToString()+" ]";
 			if (req.Content!=null)

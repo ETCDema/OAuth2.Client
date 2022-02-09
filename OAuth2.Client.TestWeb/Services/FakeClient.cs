@@ -19,7 +19,7 @@ namespace OAuth2.Client.TestWeb.Services
 
 		protected override RestClient NewAccessCodeClient()
 		{
-			return _client ?? (_client = new RestClient(new RestClientOptions()));
+			return _client ??= new RestClient(new RestClientOptions());
 		}
 
 		protected override RestClient NewAccessTokenClient()

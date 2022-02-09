@@ -29,7 +29,7 @@ namespace OAuth2.Client.For
 
 		protected override RestClient NewAccessCodeClient()
 		{
-			return _client ?? (_client = new RestClient(NewOptions("https://oauth.yandex.ru")));
+			return _client ??= new RestClient(NewOptions("https://oauth.yandex.ru"));
 		}
 
 		protected override RestClient NewAccessTokenClient()

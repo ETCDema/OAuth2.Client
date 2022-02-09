@@ -149,7 +149,7 @@ namespace OAuth2.Client
 		/// <param name="onReq">Обработчик запроса/ответа (Request.URL, Request.Headers+Request.Body, Response.Content)</param>
 		/// <param name="cancellationToken"></param>
 		/// <returns>Информация о пользователе, выполнившем вход через сервис авторизации.</returns>
-		internal virtual Task<TUserInfo> GetUserInfoAsync(IQueryCollection parameters, Action<string, string, string?> onReq, CancellationToken cancellationToken = default)
+		internal virtual Task<TUserInfo> GetUserInfoAsync(IQueryCollection parameters, Action<string, string?, string?> onReq, CancellationToken cancellationToken = default)
 		{
 			var ctx             = new _dumpCtx(onReq);                  // Контекст для получения данных
 			ctx.GrantType       = "authorization_code";
@@ -400,9 +400,9 @@ namespace OAuth2.Client
 		/// </summary>
 		private class _dumpCtx : Ctx
 		{
-			private readonly Action<string, string, string?> _onReq;
+			private readonly Action<string, string?, string?> _onReq;
 
-			public _dumpCtx(Action<string,string, string?> onReq)
+			public _dumpCtx(Action<string, string?, string?> onReq)
 				: base()
 			{
 				_onReq			= onReq;
@@ -436,14 +436,14 @@ namespace OAuth2.Client
 					if (value!=null)
 					{
 						var contentType	= value.ContentType;
-						var content     = _toString(value.RawBytes);
+						var content     = OAuth2Based<TUserInfo>._dumpCtx._toString(value.RawBytes);
 
 						_onReq("<<<", contentType, content);
 					}
 				}
 			}
 
-			private string? _toString(byte[]? raw)
+			private static string? _toString(byte[]? raw)
 			{
 				if (raw==null || raw.Length==0) return null;
 

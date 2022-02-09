@@ -26,7 +26,7 @@ namespace OAuth2.Client.For
 
 		protected override RestClient NewAccessCodeClient()
 		{
-			return _client ?? (_client = new RestClient(NewOptions("https://login.live.com")));
+			return _client ??= new RestClient(NewOptions("https://login.live.com"));
 		}
 
 		protected override RestClient NewAccessTokenClient()
