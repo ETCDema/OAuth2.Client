@@ -1,13 +1,13 @@
-using OAuth2;
+п»їusing OAuth2;
 using OAuth2.Client.Models;
 
 var builder						= WebApplication.CreateBuilder(args);
 var env							= Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
 
 var cfg							= builder	.Configuration
-											.AddJsonFile("appsettings.json",		optional: true, reloadOnChange: false)	// Общая часть настроек
-											.AddJsonFile("appsettings.secret.json", optional: true, reloadOnChange: false)  // Общая часть настроек с паролями, ключами и т.п., что нельзя распространять
-											.AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: false)  // Настройки для текущего окружения: разработка, боевое и т.п.
+											.AddJsonFile("appsettings.json",		optional: true, reloadOnChange: false)	// РћР±С‰Р°СЏ С‡Р°СЃС‚СЊ РЅР°СЃС‚СЂРѕРµРє
+											.AddJsonFile("appsettings.secret.json", optional: true, reloadOnChange: false)  // РћР±С‰Р°СЏ С‡Р°СЃС‚СЊ РЅР°СЃС‚СЂРѕРµРє СЃ РїР°СЂРѕР»СЏРјРё, РєР»СЋС‡Р°РјРё Рё С‚.Рї., С‡С‚Рѕ РЅРµР»СЊР·СЏ СЂР°СЃРїСЂРѕСЃС‚СЂР°РЅСЏС‚СЊ
+											.AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: false)  // РќР°СЃС‚СЂРѕР№РєРё РґР»СЏ С‚РµРєСѓС‰РµРіРѕ РѕРєСЂСѓР¶РµРЅРёСЏ: СЂР°Р·СЂР°Р±РѕС‚РєР°, Р±РѕРµРІРѕРµ Рё С‚.Рї.
 											.Build();
 
 var clientsCfg                  = cfg.GetRequiredSection("OAuth2Clients");

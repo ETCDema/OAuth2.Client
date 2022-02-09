@@ -1,10 +1,10 @@
-using OAuth2.Client.Models;
+п»їusing OAuth2.Client.Models;
 using OAuth2.Client.XUnitTest.Core;
 
 namespace OAuth2.Client.XUnitTest
 {
 	/// <summary>
-	/// Тесты Google клиента
+	/// РўРµСЃС‚С‹ Google РєР»РёРµРЅС‚Р°
 	/// </summary>
 	public class GoogleClientTests : ClientTests<GoogleClientTests.GoogleService>
 	{

@@ -1,4 +1,4 @@
-namespace OAuth2.Client.TestWeb.Models
+﻿namespace OAuth2.Client.TestWeb.Models
 {
 	public class ErrorViewModel
 	{
