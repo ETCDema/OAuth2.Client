@@ -416,7 +416,7 @@ namespace OAuth2.Client
 					base.Request= value;
 					value.OnBeforeRequest = req =>
 					{
-						var reqTxt		= "Headers: [ "+req.Headers.ToString()+"User-Agent: "+USERAGENT+"\r\n ]";
+						var reqTxt		= "Headers: [ "+req.Headers.ToString()+"User-Agent: "+USERAGENT+"\n ]";
 						if (req.Content!=null)
 							reqTxt		+= ", Body: "+req.Content.ReadAsStringAsync().Result;
 

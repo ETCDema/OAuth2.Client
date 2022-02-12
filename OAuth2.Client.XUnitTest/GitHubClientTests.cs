@@ -22,15 +22,15 @@ namespace OAuth2.Client.XUnitTest
 					RedirectURI         = "https://test.host/oauth2/by/github/",
 					TestHandler         = new TestMessageHandler()
 											.Add("[POST]https://github.com/login/oauth/access_token",
-												"Headers: [ Accept: application/json\r\nUser-Agent: RestSharp/107\r\n ], Body: grant_type=authorization_code&client_id=github-client-id&client_secret=github-client-secret&code=code-from-GitHub&redirect_uri=https%3A%2F%2Ftest.host%2Foauth2%2Fby%2Fgithub%2F",
+												"Headers: [ Accept: application/json\nUser-Agent: RestSharp/107\n ], Body: grant_type=authorization_code&client_id=github-client-id&client_secret=github-client-secret&code=code-from-GitHub&redirect_uri=https%3A%2F%2Ftest.host%2Foauth2%2Fby%2Fgithub%2F",
 												"application/json",
 												Convert.ToBase64String(Encoding.UTF8.GetBytes("{\"access_token\":\"github-access-token\",\"token_type\":\"bearer\",\"scope\":\"read: user, user: email\"}")))
 											.Add("[GET]https://api.github.com/user",
-												"Headers: [ Accept: application/json\r\nAuthorization: Bearer github-access-token\r\nUser-Agent: RestSharp/107\r\n ]",
+												"Headers: [ Accept: application/json\nAuthorization: Bearer github-access-token\nUser-Agent: RestSharp/107\n ]",
 												"application/json",
 												Convert.ToBase64String(Encoding.UTF8.GetBytes("{\"login\":\"GHLogin\",\"id\":\"user-id\",\"node_id\":\"node-id\",\"avatar_url\":\"avatar-url\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/GHLogin\",\"html_url\":\"https://github.com/GHLogin\",\"followers_url\":\"https://api.github.com/users/GHLogin/followers\",\"following_url\":\"https://api.github.com/users/GHLogin/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/GHLogin/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/GHLogin/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/GHLogin/subscriptions\",\"organizations_url\":\"https://api.github.com/users/GHLogin/orgs\",\"repos_url\":\"https://api.github.com/users/GHLogin/repos\",\"events_url\":\"https://api.github.com/users/GHLogin/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/GHLogin/received_events\",\"type\":\"User\",\"site_admin\":false,\"name\":\"FName LName\",\"company\":null,\"blog\":\"\",\"location\":\"Russia\",\"email\":null,\"hireable\":null,\"bio\":null,\"twitter_username\":null,\"public_repos\":2,\"public_gists\":0,\"followers\":0,\"following\":0,\"created_at\":\"2016-05-15T10:40:37Z\",\"updated_at\":\"2022-01-14T16:18:36Z\",\"private_gists\":1,\"total_private_repos\":1,\"owned_private_repos\":1,\"disk_usage\":179,\"collaborators\":0,\"two_factor_authentication\":true,\"plan\":{\"name\":\"free\",\"space\":100500,\"collaborators\":0,\"private_repos\":10000}}")))
 											.Add("[GET]https://api.github.com/user/emails",
-												"Headers: [ Accept: application/json\r\nAuthorization: Bearer github-access-token\r\nUser-Agent: RestSharp/107\r\n ]",
+												"Headers: [ Accept: application/json\nAuthorization: Bearer github-access-token\nUser-Agent: RestSharp/107\n ]",
 												"application/json",
 												Convert.ToBase64String(Encoding.UTF8.GetBytes("[{\"email\":\"email@service\",\"primary\":true,\"verified\":true,\"visibility\":\"public\"}]")))
 

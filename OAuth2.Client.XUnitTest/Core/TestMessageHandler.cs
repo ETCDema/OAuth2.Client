@@ -40,12 +40,12 @@ namespace OAuth2.Client.XUnitTest.Core
 		protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 		{
 			var url             = string.Concat("[", request.Method, "]", request.RequestUri);
-			var expectedReq     = _reqToString(request);
+			var actualReq     	= _reqToString(request);
 
 			var response        = new HttpResponseMessage()
 			{
 				RequestMessage	= request,
-				Content         = _getContent(url, expectedReq)
+				Content         = _getContent(url, actualReq)
 			};
 
 			return Task.FromResult(response);
@@ -53,16 +53,16 @@ namespace OAuth2.Client.XUnitTest.Core
 
 		private static string _reqToString(HttpRequestMessage req)
 		{
-			var reqTxt			= "Headers: [ "+req.Headers.ToString()+" ]";
+			var reqTxt			= "Headers: [ "+req.Headers.ToString().Replace("\r\n", "\n")+" ]";
 			if (req.Content!=null)
 				reqTxt			+= ", Body: "+req.Content.ReadAsStringAsync().Result;
 
 			return reqTxt;
 		}
 
-		private HttpContent? _getContent(string url, string expectedReq)
+		private HttpContent? _getContent(string url, string actualReq)
 		{
-			if (_data.TryGetValue(url, out var fx)) return fx(expectedReq);
+			if (_data.TryGetValue(url, out var fx)) return fx(actualReq);
 
 			Assert.True(false, "NotFound: "+url);
 			return null;
