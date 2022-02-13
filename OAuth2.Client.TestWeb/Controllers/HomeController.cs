@@ -25,7 +25,7 @@ namespace OAuth2.Client.TestWeb.Controllers
 				if (!string.IsNullOrEmpty(state))
 					vm.Log.Add("+ ["+state+"]");
 
-				var client      = (OAuth2Based<UserInfo>)vm.Current!;
+				var client      = (OAuth2Based<UserInfo>)vm.Current! ?? throw new NotSupportedException("Client "+cname+" not supported");
 
 				vm.User         = await client.GetUserInfoAsync(Request.Query, (dir, v1, v2) =>
 				{
