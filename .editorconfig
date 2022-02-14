@@ -171,6 +171,10 @@ dotnet_naming_rule.interface_should_be_начинается_с_i.severity = sugg
 dotnet_naming_rule.interface_should_be_начинается_с_i.symbols = interface
 dotnet_naming_rule.interface_should_be_начинается_с_i.style = начинается_с_i
 
+dotnet_naming_rule.protected_static_элементы.severity = suggestion
+dotnet_naming_rule.protected_static_элементы.symbols = protected_static_элементы
+dotnet_naming_rule.protected_static_элементы.style = protectedconst
+
 dotnet_naming_rule.protected_элементы_should_be_стильдляprotected.severity = suggestion
 dotnet_naming_rule.protected_элементы_should_be_стильдляprotected.symbols = protected_элементы
 dotnet_naming_rule.protected_элементы_should_be_стильдляprotected.style = стильдляprotected
@@ -192,6 +196,10 @@ dotnet_naming_rule.не_являющиеся_полем_члены_should_be_в�
 dotnet_naming_rule.не_являющиеся_полем_члены_should_be_всечастиспрописнойбуквы.style = всечастиспрописнойбуквы
 
 # Спецификации символов
+
+dotnet_naming_symbols.protected_static_элементы.applicable_kinds = field
+dotnet_naming_symbols.protected_static_элементы.applicable_accessibilities = protected
+dotnet_naming_symbols.protected_static_элементы.required_modifiers = static, readonly
 
 dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
@@ -232,7 +240,7 @@ dotnet_naming_style.начинается_с_i.capitalization = pascal_case
 dotnet_naming_style.стильдляprotected.required_prefix = 
 dotnet_naming_style.стильдляprotected.required_suffix = 
 dotnet_naming_style.стильдляprotected.word_separator = 
-dotnet_naming_style.стильдляprotected.capitalization = camel_case
+dotnet_naming_style.стильдляprotected.capitalization = pascal_case
 
 dotnet_naming_style._стильдляprivate.required_prefix = _
 dotnet_naming_style._стильдляprivate.required_suffix = 
@@ -243,3 +251,8 @@ dotnet_naming_style._privateconst.required_prefix = _
 dotnet_naming_style._privateconst.required_suffix = 
 dotnet_naming_style._privateconst.word_separator = 
 dotnet_naming_style._privateconst.capitalization = all_upper
+
+dotnet_naming_style.protectedconst.required_prefix = 
+dotnet_naming_style.protectedconst.required_suffix = 
+dotnet_naming_style.protectedconst.word_separator = 
+dotnet_naming_style.protectedconst.capitalization = all_upper

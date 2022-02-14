@@ -17,10 +17,10 @@ namespace OAuth2.Client
 	public abstract class OAuth2Based<TUserInfo> : IClient
 		where TUserInfo : UserInfo
 	{
-		protected readonly string ACCESSTOKENKEY		= "access_token";
-		protected readonly string REFRESHTOKENKEY		= "refresh_token";
-		protected readonly string EXPIRESKEY			= "expires_in";
-		protected readonly string TOKENTYPEKEY			= "token_type";
+		protected static readonly string ACCESSTOKENKEY	= "access_token";
+		protected static readonly string REFRESHTOKENKEY= "refresh_token";
+		protected static readonly string EXPIRESKEY		= "expires_in";
+		protected static readonly string TOKENTYPEKEY	= "token_type";
 		protected static readonly string USERAGENT      = "RestSharp/107";
 
 		/// <summary>Настройки клиента</summary>
@@ -130,10 +130,12 @@ namespace OAuth2.Client
 		/// <returns>Информация о пользователе, выполнившем вход через сервис авторизации.</returns>
 		public Task<TUserInfo> GetUserInfoAsync(IQueryCollection parameters, CancellationToken cancellationToken = default)
 		{
-			var ctx             = new Ctx();                            // Контекст для получения данных
-			ctx.GrantType       = "authorization_code";
-			ctx.Params          = new TokensData(parameters);           // Приводим параметры к нужному виду
-			ctx.State           = CheckErrorAndGetState(ctx.Params);    // Проверяем, если ошибки и забираем переданное в GetLoginURIAsync значение state
+			// Контекст для получения данных
+			var ctx 			= CheckErrorAndSetState(new Ctx	// Проверяем, если ошибки и забираем переданное в GetLoginURIAsync значение state
+			{
+				GrantType       = "authorization_code",
+				Params          = new TokensData(parameters)    // Приводим параметры к нужному виду
+			});
 
 			return GetUserInfoAsync(ctx, cancellationToken);
 		}
@@ -151,10 +153,12 @@ namespace OAuth2.Client
 		/// <returns>Информация о пользователе, выполнившем вход через сервис авторизации.</returns>
 		internal virtual Task<TUserInfo> GetUserInfoAsync(IQueryCollection parameters, Action<string, string?, string?> onReq, CancellationToken cancellationToken = default)
 		{
-			var ctx             = new _dumpCtx(onReq);                  // Контекст для получения данных
-			ctx.GrantType       = "authorization_code";
-			ctx.Params          = new TokensData(parameters);           // Приводим параметры к нужному виду
-			ctx.State           = CheckErrorAndGetState(ctx.Params);    // Проверяем, если ошибки и забираем переданное в GetLoginURIAsync значение state
+			// Контекст для получения данных
+			var ctx 			= CheckErrorAndSetState(new _dumpCtx(onReq)	// Проверяем, если ошибки и забираем переданное в GetLoginURIAsync значение state
+			{
+				GrantType       = "authorization_code",
+				Params          = new TokensData(parameters)    // Приводим параметры к нужному виду
+			});
 
 			return GetUserInfoAsync(ctx, cancellationToken);
 		}
@@ -245,11 +249,13 @@ namespace OAuth2.Client
 		/// <param name="data"></param>
 		/// <returns></returns>
 		/// <exception cref="Exception"></exception>
-		protected virtual string CheckErrorAndGetState(TokensData data)
+		protected virtual Ctx CheckErrorAndSetState(Ctx ctx)
 		{
+			var data            = ctx.Params;
 			var error			= data.TryGet("error");
 			if (!string.IsNullOrEmpty(error)) throw new Exception(error);
-			return data.TryGet("state")!;
+			ctx.State			= data.TryGet("state");
+			return ctx;
 		}
 
 		/// <summary>
