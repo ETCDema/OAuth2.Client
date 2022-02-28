@@ -1,5 +1,5 @@
 # [EN] OAuth2.Client
-Small library for authentication of users on the third-party services supporting OAuth2 the report: Google, Yandex, etc - nothing more, only authorization and obtaining information about the user. Deep rework of the project https://github.com/titarenko/OAuth2.
+Small library for authentication of users on the third-party services supporting OAuth2 protocol: Google, Yandex, etc - nothing more, only authorization and obtaining information about the user. Deep rework of the project https://github.com/titarenko/OAuth2.
 
 The main difference is that the user data model is simplified as much as possible, the second important point is that the implemented clients can be configured once and registered in the IServiceCollection as singleton objects, the methods is thread-safe.
 
