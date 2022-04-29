@@ -81,20 +81,25 @@ namespace OAuth2.Client.XUnitTest.Core
 
 			Assert.Equal(client.Name,		userInfo.ProviderName);
 			Assert.Equal("user-id",			userInfo.ID);
-			Assert.Equal("email@service",	userInfo.Email);
+			Assert.Equal(Email,				userInfo.Email);
 			Assert.Equal("FName",			userInfo.FirstName);
 			Assert.Equal("LName",			userInfo.LastName);
 			Assert.Equal(AvatarURL,			userInfo.AvatarURL);
 		}
 
 		/// <summary>
-		/// Ожидаемое значение URL аватара, данные могут отличаться от сервиса к сервису
-		/// </summary>
-		protected virtual string AvatarURL				=> "avatar-url";
-
-		/// <summary>
 		/// Ожидаемое значение URL для авторизации на OAuth2 сервисе
 		/// </summary>
-		protected abstract string ExpectedLoginURI		{ get; }
+		protected abstract string ExpectedLoginURI { get; }
+
+		/// <summary>
+		/// Ожидаемое значение Email, данные могут отличаться от сервиса к сервису
+		/// </summary>
+		protected virtual string? Email					=> "email@service";
+
+		/// <summary>
+		/// Ожидаемое значение URL аватара, данные могут отличаться от сервиса к сервису
+		/// </summary>
+		protected virtual string? AvatarURL				=> "avatar-url";
 	}
 }
