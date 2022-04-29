@@ -14,6 +14,7 @@ First release, version 0.1, I use in your projects. At the moment, work has been
 * MicrosoftLive
 * VK
 * Yandex
+* Mastodon based (like Stogramm)
 
 A test site has been made to verify work with services. XUnit tests are made as close as possible to real work, but without real access to services
 
@@ -85,6 +86,7 @@ Steps to create a new client for the service:
 * MicrosoftLive
 * VK
 * Yandex
+* На основе Mastodon (например Stogramm)
 
 Сделан тестовый сайт для проверки работы с сервисами. Сделаны тесты, максимально приближенные к реальной работе, но без реального обращения к сервисам.
 
