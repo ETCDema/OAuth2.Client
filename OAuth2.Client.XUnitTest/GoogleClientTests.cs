@@ -1,4 +1,6 @@
-﻿using OAuth2.Client.Models;
+﻿using System.Text;
+
+using OAuth2.Client.Models;
 using OAuth2.Client.XUnitTest.Core;
 
 namespace OAuth2.Client.XUnitTest
@@ -21,11 +23,26 @@ namespace OAuth2.Client.XUnitTest
 											.Add("[POST]https://accounts.google.com/o/oauth2/token",
 												"Headers: [ Accept: application/json\nUser-Agent: RestSharp/107\n ], Body: grant_type=authorization_code&client_id=google-client-id&client_secret=google-client-secret&code=code-from-Google&redirect_uri=https%3A%2F%2Ftest.host%2Foauth2%2Fby%2Fgoogle%2F",
 												"application/json",
-												"ewogICJhY2Nlc3NfdG9rZW4iOiAiZ29vZ2xlLWFjY2Vzcy10b2tlbiIsCiAgImV4cGlyZXNfaW4iOiAzNTk5LAogICJzY29wZSI6ICJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9hdXRoL3VzZXJpbmZvLnByb2ZpbGUgaHR0cHM6Ly93d3cuZ29vZ2xlYXBpcy5jb20vYXV0aC91c2VyaW5mby5lbWFpbCBvcGVuaWQiLAogICJ0b2tlbl90eXBlIjogIkJlYXJlciIsCiAgImlkX3Rva2VuIjogImdvb2dsZS1pZC10b2tlbiIKfQ==")
+												Encoding.UTF8.GetBytes(@"{
+													""access_token"": ""google-access-token"",
+													""expires_in"": 3599,
+													""scope"": ""https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid"",
+													""token_type"": ""Bearer"",
+													""id_token"": ""google-id-token""
+												}"))
 											.Add("[GET]https://www.googleapis.com/oauth2/v1/userinfo",
 												"Headers: [ Accept: application/json\nAuthorization: Bearer google-access-token\nUser-Agent: RestSharp/107\n ]",
 												"application/json",
-												"ewogICJpZCI6ICJ1c2VyLWlkIiwKICAiZW1haWwiOiAiZW1haWxAc2VydmljZSIsCiAgInZlcmlmaWVkX2VtYWlsIjogdHJ1ZSwKICAibmFtZSI6ICJGTmFtZSBMTmFtZSIsCiAgImdpdmVuX25hbWUiOiAiRk5hbWUiLAogICJmYW1pbHlfbmFtZSI6ICJMTmFtZSIsCiAgInBpY3R1cmUiOiAiYXZhdGFyLXVybCIsCiAgImxvY2FsZSI6ICJydSIKfQ=="),
+												Encoding.UTF8.GetBytes(@"{
+													""id"": ""user-id"",
+													""email"": ""email@service"",
+													""verified_email"": true,
+													""name"": ""FName LName"",
+													""given_name"": ""FName"",
+													""family_name"": ""LName"",
+													""picture"": ""avatar-url"",
+													""locale"": ""ru""
+												}")),
 				});
 			}
 		}

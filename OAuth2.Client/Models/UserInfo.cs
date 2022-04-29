@@ -42,7 +42,7 @@
 		public string? LastName			{ get; set; }
 
 		/// <summary>
-		/// Contains URIs of different sizes of avatar.
+		/// Contains URI of avatar.
 		/// </summary>
 		public string? AvatarURL		{ get; set; }
 	}

@@ -29,19 +29,17 @@ namespace OAuth2.Client.XUnitTest.Core
 		/// <param name="url">URL запроса, должен содержать метод и полный адрес: "[METHOD]https://service/path?param"</param>
 		/// <param name="expectedReq">Ожидаемые данные запроса: заголовки + тело запроса. Если нашли данные по URL, но ожидаемые данные запроса не совпадают, то будет возвращена ошибка.</param>
 		/// <param name="contentType">Тип содержимого ответа</param>
-		/// <param name="content">Base64Encoded содержтмое ответа</param>
+		/// <param name="content">Содержимое ответа</param>
 		/// <returns>Эта же коллекция для добавления другого запроса</returns>
-		public TestMessageHandler Add(string url, string expectedReq, string contentType, string content)
+		public TestMessageHandler Add(string url, string expectedReq, string contentType, byte[] content)
 		{
-			var bytes			= Convert.FromBase64String(content);
-
 			_data.Add(url, (actualReq) =>
 			{
 				// Сначала проверим, что текущие заголовки и тело запроса совпадает с ожидаемым
 				Assert.Equal(expectedReq, actualReq);
 
 				// Вернем настроенное содержимое
-				return new ByteArrayContent(bytes)
+				return new ByteArrayContent(content)
 				{
 					Headers		=
 					{

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Text;
 using System.Text.Json;
 using System.Web;
 
@@ -442,18 +443,21 @@ namespace OAuth2.Client
 					if (value!=null)
 					{
 						var contentType	= value.ContentType;
-						var content     = OAuth2Based<TUserInfo>._dumpCtx._toString(value.RawBytes);
+						var content     = OAuth2Based<TUserInfo>._dumpCtx._toString(contentType, value.RawBytes);
 
 						_onReq("<<<", contentType, content);
 					}
 				}
 			}
 
-			private static string? _toString(byte[]? raw)
+			private static string? _toString(string contentType, byte[]? raw)
 			{
 				if (raw==null || raw.Length==0) return null;
 
-				return Convert.ToBase64String(raw);
+				if (contentType!=null && contentType.ToLower().Contains("application/json"))
+					return Encoding.UTF8.GetString(raw);
+				else
+					return Convert.ToBase64String(raw);
 			}
 		}
 
