@@ -450,7 +450,7 @@ namespace OAuth2.Client
 				}
 			}
 
-			private static string? _toString(string contentType, byte[]? raw)
+			private static string? _toString(string? contentType, byte[]? raw)
 			{
 				if (raw==null || raw.Length==0) return null;
 
