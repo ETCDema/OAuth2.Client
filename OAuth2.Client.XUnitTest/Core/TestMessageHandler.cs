@@ -33,6 +33,9 @@ namespace OAuth2.Client.XUnitTest.Core
 		/// <returns>Эта же коллекция для добавления другого запроса</returns>
 		public TestMessageHandler Add(string url, string expectedReq, string contentType, byte[] content)
 		{
+#if FIX_REST_ENCODING
+			url					= url.Replace("%3a", ":");
+#endif
 			_data.Add(url, (actualReq) =>
 			{
 				// Сначала проверим, что текущие заголовки и тело запроса совпадает с ожидаемым

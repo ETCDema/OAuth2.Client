@@ -103,7 +103,7 @@ namespace OAuth2.Client
 			var req				= new RestRequest()
 									.AddParameter("response_type",	"code")
 									.AddParameter("client_id",		Options.ClientID)
-									.AddParameter("redirect_uri",	Options.RedirectURI);
+									.AddParameter("redirect_uri",   Options.RedirectURI);
 
 			if (!String.IsNullOrEmpty(Options.Scope))
 				req.AddParameter("scope", Options.Scope);
@@ -429,7 +429,7 @@ namespace OAuth2.Client
 
 						_onReq(">>>", string.Concat("[", req.Method, "]", req.RequestUri), reqTxt);
 
-						return ValueTask.CompletedTask;
+						return new ValueTask(Task.CompletedTask);
 					};
 				}
 			}

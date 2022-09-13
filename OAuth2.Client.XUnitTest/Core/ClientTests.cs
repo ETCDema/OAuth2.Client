@@ -66,7 +66,11 @@ namespace OAuth2.Client.XUnitTest.Core
 		public void GetLoginURI()
 		{
 			var url             = Client.GetLoginURIAsync().Result;
+#if FIX_REST_ENCODING
+			Assert.Equal(ExpectedLoginURI.Replace("%3a", ":"), url);
+#else
 			Assert.Equal(ExpectedLoginURI, url);
+#endif
 		}
 
 		/// <summary>
