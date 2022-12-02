@@ -26,16 +26,21 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.29" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'=='net6.0' OR '$(TargetFramework)'=='net7.0'">
+	<ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
 		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)'=='net7.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\logo.png" Pack="true" PackagePath="\" />
 		<None Include="..\README.md" Pack="true" PackagePath="\" />
 
-		<PackageReference Include="RestSharp" Version="108.0.1" />
+		<PackageReference Include="RestSharp" Version="108.0.3" />
 	</ItemGroup>
 
 </Project>

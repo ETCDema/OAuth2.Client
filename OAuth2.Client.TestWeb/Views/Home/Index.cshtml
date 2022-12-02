@@ -8,7 +8,6 @@
     var hasFinal                = hasCurrent && (Model!.User!=null || Model!.Log.Count>0);
     var stateValue              = Model!.StateValue ?? ("State:"+Guid.NewGuid());
 }
-
 @functions
 {
     private void RenderMsg(string txt)
@@ -20,7 +19,7 @@
         WriteLiteral("</div>");
     }
 
-    private void RenderImg(string? url)
+    private void RenderImg(string url)
     {
         if (string.IsNullOrEmpty(url)) return;
 
@@ -29,7 +28,6 @@
         WriteLiteral("\"/>");
     }
 }
-
 <div class="text-center">
     <h1 class="display-3 mb-4">Welcome</h1>
 </div>

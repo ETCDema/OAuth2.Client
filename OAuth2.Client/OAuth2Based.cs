@@ -350,7 +350,7 @@ namespace OAuth2.Client
 			try
 			{
 				// response can be sent in JSON format
-				return new TokensData(JsonDocument.Parse(content).RootElement);
+				return new TokensData(JsonDocument.Parse(content!).RootElement);
 			} catch (JsonException)
 			{
 				// or it can be in "query string" format (param1=val1&param2=val2)

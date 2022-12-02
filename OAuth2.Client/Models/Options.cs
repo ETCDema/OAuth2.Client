@@ -14,10 +14,10 @@ namespace OAuth2.Client.Models
 
 		public Options(IConfigurationSection cfg)
 		{
-			ClientID            = cfg["ClientID"];
-			ClientSecret        = cfg["ClientSecret"];
+			ClientID            = cfg["ClientID"]		?? throw new ArgumentNullException(cfg.Path+":ClientID");
+			ClientSecret        = cfg["ClientSecret"]	?? throw new ArgumentNullException(cfg.Path+":ClientSecret");
 			Scope               = cfg["Scope"];
-			RedirectURI         = cfg["RedirectURI"];
+			RedirectURI         = cfg["RedirectURI"]	?? throw new ArgumentNullException(cfg.Path+":RedirectURI");
 		}
 
 		internal Options(string clientID, string clientSecret, string scope, string redirectURI, HttpMessageHandler testHandler)
@@ -33,7 +33,7 @@ namespace OAuth2.Client.Models
 		public string ClientSecret		{ get; }
 
 		/// <summary>Scope - contains set of permissions which user should give to your application.</summary>
-		public string Scope				{ get; }
+		public string? Scope			{ get; }
 
 		/// <summary>
 		/// Redirect URI (URI user will be redirected to
