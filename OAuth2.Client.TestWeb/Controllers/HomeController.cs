@@ -33,11 +33,15 @@ namespace OAuth2.Client.TestWeb.Controllers
 					if (v2!=null)
 						vm.Log.Add(dir+v2);
 				});
-			} catch(Exception ex)
+			} catch(Exception? ex)
 			{
 				vm.Error        = ex.Message;
-				vm.Log.Add("FAIL: ["+ex.GetType().Name+"] "+ex.Message);
-				vm.Log.Add("@ "+ex.StackTrace);
+				while (ex!=null)
+				{
+					vm.Log.Add("FAIL: ["+ex.GetType().Name+"] "+ex.Message);
+					vm.Log.Add("@ "+ex.StackTrace);
+					ex			= ex.InnerException;
+				}
 			}
 
 			return View("Index", vm);

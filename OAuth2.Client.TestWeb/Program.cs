@@ -3,17 +3,32 @@
 using OAuth2;
 using OAuth2.Client.Models;
 
-using IHostingEnvironment		= Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
-var env                         = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+var env                         = _getArgValue(args, HostDefaults.EnvironmentKey)
+								?? Environment.GetEnvironmentVariable("ASPNETCORE_"+WebHostDefaults.EnvironmentKey.ToUpper())
+								?? "Production";
+
+Console.WriteLine("Use environment="+env);
+
+var cfg							= new ConfigurationBuilder()
+									.SetBasePath(Directory.GetCurrentDirectory())
+									.AddJsonFile("appsettings.json",				optional: true, reloadOnChange: false)	// Общая часть настроек
+									.AddJsonFile("appsettings.secret.json",			optional: true, reloadOnChange: false)  // Общая часть настроек с паролями, ключами и т.п., что нельзя распространять
+									.AddJsonFile($"appsettings.{env}.json",			optional: true, reloadOnChange: false)	// Настройки для текущего окружения: разработка, боевое и т.п.
+									.AddJsonFile($"appsettings.{env}.secret.json",	optional: true, reloadOnChange: false)
+									.Build();
+
 new WebHostBuilder()
 	.ConfigureAppConfiguration(cfgBuilder =>
 	{
-		cfgBuilder.AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)           // Общая часть настроек
-				  .AddJsonFile("appsettings.secret.json", optional: true, reloadOnChange: false)    // Общая часть настроек с паролями, ключами и т.п., что нельзя распространять
-				  .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: false);   // Настройки для текущего окружения: разработка, боевое и т.п.
+		cfgBuilder.Sources.Clear();								// Сносим то, что создано автоматом. TODO: возможно стоит как-то иначе собирать host?
+		cfgBuilder.AddConfiguration(cfg);						// Добавляем ранее созданную конфигурацию
 	})
-	.UseKestrel()
+	.UseKestrel(opt =>
+	{
+		opt.Configure(cfg.GetSection("Kestrel"));
+	})
 	.ConfigureServices((ctx, services) =>
 	{
 		var clientsCfg                  = ctx.Configuration.GetSection("OAuth2Clients");
@@ -53,3 +68,18 @@ new WebHostBuilder()
 	})
 	.Build()
 	.Run();
+
+static string? _getArgValue(string[] args, string name)
+{
+	if (args!=null && args.Length>0)
+	{
+		name					= "--"+name+"=";
+		foreach (string arg in args)
+		{
+			if (arg.StartsWith(name))
+				return arg.Substring(name.Length);
+		}
+	}
+
+	return null;
+}
