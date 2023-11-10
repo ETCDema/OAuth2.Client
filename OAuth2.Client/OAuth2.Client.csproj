@@ -22,8 +22,8 @@
 	<ItemGroup Condition="'$(TargetFramework)'=='net4.8.1'">
 		<Reference Include="System.Net.Http" />
 		<Reference Include="System.Web" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.29" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.29" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.32" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.32" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
@@ -40,7 +40,7 @@
 		<None Include="..\logo.png" Pack="true" PackagePath="\" />
 		<None Include="..\README.md" Pack="true" PackagePath="\" />
 
-		<PackageReference Include="RestSharp" Version="108.0.3" />
+		<PackageReference Include="RestSharp" Version="110.2.0" />
 	</ItemGroup>
 
 </Project>
