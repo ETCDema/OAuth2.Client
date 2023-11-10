@@ -2,6 +2,7 @@
 @using OAuth2.Client.Models;
 @model ClientsModel;
 @{
+    #nullable enable
     ViewData["Title"]           = "Home Page";
 
     var hasCurrent              = Model!.Current!=null;
@@ -19,7 +20,7 @@
         WriteLiteral("</div>");
     }
 
-    private void RenderImg(string url)
+    private void RenderImg(string? url)
     {
         if (string.IsNullOrEmpty(url)) return;
 

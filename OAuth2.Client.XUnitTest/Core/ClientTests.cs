@@ -1,4 +1,11 @@
-﻿using Microsoft.AspNetCore.Http.Internal;
+﻿#if NET4
+using Microsoft.AspNetCore.Http.Internal;
+#else
+using Microsoft.AspNetCore.Http;
+#endif
+
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.WebUtilities;
 
 using OAuth2.Client.Models;
@@ -63,9 +70,9 @@ namespace OAuth2.Client.XUnitTest.Core
 		/// Получить URL для авторизации на OAuth2 сервисе
 		/// </summary>
 		[Fact]
-		public void GetLoginURI()
+		public async Task GetLoginURI()
 		{
-			var url             = Client.GetLoginURIAsync().Result;
+			var url             = await Client.GetLoginURIAsync();
 #if FIX_REST_ENCODING
 			Assert.Equal(ExpectedLoginURI.Replace("%3a", ":"), url);
 #else
@@ -77,11 +84,11 @@ namespace OAuth2.Client.XUnitTest.Core
 		/// Получить информацию о пользователе
 		/// </summary>
 		[Fact]
-		public void GetUserInfo()
+		public async Task GetUserInfo()
 		{
 			var client          = Client;
 			var callbackData    = new QueryCollection(QueryHelpers.ParseQuery("code=code-from-"+client.Name));
-			var userInfo        = client.GetUserInfoAsync(callbackData).Result;
+			var userInfo        = await client.GetUserInfoAsync(callbackData);
 
 			Assert.Equal(client.Name,		userInfo.ProviderName);
 			Assert.Equal("user-id",			userInfo.ID);

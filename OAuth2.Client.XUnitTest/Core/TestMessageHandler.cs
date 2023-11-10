@@ -101,7 +101,7 @@ namespace OAuth2.Client.XUnitTest.Core
 		{
 			if (_data.TryGetValue(url, out var fx)) return fx(actualReq);
 
-			Assert.True(false, "NotFound: "+url);
+			Assert.Fail("NotFound: "+url);
 			return null;
 		}
 	}

@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework)'=='net4.8.1'">
-		<DefineConstants>FIX_REST_ENCODING</DefineConstants>
+		<DefineConstants>FIX_REST_ENCODING NET4</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='net4.8.1'">

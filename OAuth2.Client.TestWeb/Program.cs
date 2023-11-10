@@ -3,8 +3,6 @@
 using OAuth2;
 using OAuth2.Client.Models;
 
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
-
 var env                         = _getArgValue(args, HostDefaults.EnvironmentKey)
 								?? Environment.GetEnvironmentVariable("ASPNETCORE_"+WebHostDefaults.EnvironmentKey.ToUpper())
 								?? "Production";
@@ -45,7 +43,11 @@ new WebHostBuilder()
 	})
 	.Configure(appBuilder =>
 	{
-		var env					= appBuilder.ApplicationServices.GetRequiredService<IHostingEnvironment>();
+#if NET4
+		var env					= appBuilder.ApplicationServices.GetRequiredService<Microsoft.AspNetCore.Hosting.IHostingEnvironment>();
+#else
+		var env					= appBuilder.ApplicationServices.GetRequiredService<IWebHostEnvironment>();
+#endif
 		if (env.IsDevelopment())
 		{
 			appBuilder.UseExceptionHandler("/Home/Error");
@@ -77,7 +79,9 @@ static string? _getArgValue(string[] args, string name)
 		foreach (string arg in args)
 		{
 			if (arg.StartsWith(name))
+#pragma warning disable IDE0057 // Использовать оператор диапазона
 				return arg.Substring(name.Length);
+#pragma warning restore IDE0057 // Использовать оператор диапазона
 		}
 	}
 
