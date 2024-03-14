@@ -4,6 +4,9 @@ using RestSharp;
 
 namespace OAuth2.Client.For
 {
+	/// <summary>
+	/// OAuth2 client for GitHub with base UserInfo model
+	/// </summary>
 	public class GitHub : GitHub<UserInfo>
 	{
 		public GitHub(Options opt)
@@ -12,44 +15,56 @@ namespace OAuth2.Client.For
 		}
 	}
 
+	/// <summary>
+	/// OAuth2 client for GitHub
+	/// </summary>
+	/// <typeparam name="TUserInfo">Type of UserInfo model</typeparam>
 	public class GitHub<TUserInfo> : OAuth2Based<TUserInfo>
 		where TUserInfo : UserInfo, new()
 	{
 		private RestClient? _client;
 
+		/// <inheritdoc/>
 		public GitHub(Options opt)
 			: base(opt)
 		{
 		}
 
+		/// <inheritdoc/>
 		public override string Name =>	"GitHub";
 
+		/// <inheritdoc/>
 		protected override RestClient NewAccessCodeClient()
 		{
 			return _client ??= new RestClient(NewOptions("https://github.com"));
 		}
 
+		/// <inheritdoc/>
 		protected override RestClient NewAccessTokenClient()
 		{
 			return NewAccessCodeClient();
 		}
 
+		/// <inheritdoc/>
 		protected override RestClient NewUserInfoClient()
 		{
 			return new RestClient(NewOptions("https://api.github.com"));
 		}
 
+		/// <inheritdoc/>
 		protected override void InitLoginURIRequest(RestRequest request, string? state)
 		{
 			request.Resource    = "/login/oauth/authorize";
 		}
 
+		/// <inheritdoc/>
 		protected override async Task QueryAccessTokenAsync(Ctx ctx, CancellationToken cancellationToken = default)
 		{
 			ctx.Request.Resource        = "/login/oauth/access_token";
 			await base.QueryAccessTokenAsync(ctx, cancellationToken).ConfigureAwait(false);
 		}
 
+		/// <inheritdoc/>
 		protected override async Task QueryUserInfoAsync(Ctx ctx, CancellationToken cancellationToken = default)
 		{
 			ctx.Request.Resource        = "/user";
@@ -78,6 +93,12 @@ namespace OAuth2.Client.For
 			}
 		}
 
+		/// <summary>
+		/// Find value in token data
+		/// </summary>
+		/// <param name="data">Token data</param>
+		/// <param name="attr">Name suffix</param>
+		/// <returns></returns>
 		private static string? _find(TokensData data, string attr)
 		{
 			var i				= 0;
@@ -86,6 +107,7 @@ namespace OAuth2.Client.For
 			return v!=null ? data.TryGet(i+".email") : null;
 		}
 
+		/// <inheritdoc/>
 		protected override TUserInfo ParseUserInfo(Ctx ctx)
 		{
 			var data            = ctx.Content!;

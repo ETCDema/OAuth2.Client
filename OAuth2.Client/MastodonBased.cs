@@ -4,35 +4,45 @@ using RestSharp;
 
 namespace OAuth2.Client
 {
+	/// <summary>
+	/// Для реализации клиентов к сервисам, сделанным на основе Mastodon
+	/// </summary>
+	/// <typeparam name="TUserInfo">Тип модели пользоввателя</typeparam>
 	public abstract class MastodonBased<TUserInfo> : OAuth2Based<TUserInfo>
 		where TUserInfo : UserInfo, new()
 	{
+		/// <inheritdoc/>
 		public MastodonBased(Options opt)
 			: base(opt)
 		{
 		}
 
+		/// <inheritdoc/>
 		protected override RestClient NewAccessTokenClient()
 		{
 			return NewAccessCodeClient();
 		}
 
+		/// <inheritdoc/>
 		protected override RestClient NewUserInfoClient()
 		{
 			return NewAccessCodeClient();
 		}
 
+		/// <inheritdoc/>
 		protected override void InitLoginURIRequest(RestRequest request, string? state)
 		{
 			request.Resource    = "/oauth/authorize";
 		}
 
+		/// <inheritdoc/>
 		protected override async Task QueryAccessTokenAsync(Ctx ctx, CancellationToken cancellationToken = default)
 		{
 			ctx.Request.Resource        = "/oauth/token";
 			await base.QueryAccessTokenAsync(ctx, cancellationToken).ConfigureAwait(false);
 		}
 
+		/// <inheritdoc/>
 		protected override async Task QueryUserInfoAsync(Ctx ctx, CancellationToken cancellationToken = default)
 		{
 			ctx.Request.Resource        = "/api/v1/accounts/verify_credentials";
@@ -40,6 +50,7 @@ namespace OAuth2.Client
 			await base.QueryUserInfoAsync(ctx, cancellationToken).ConfigureAwait(false);
 		}
 
+		/// <inheritdoc/>
 		protected override TUserInfo ParseUserInfo(Ctx ctx)
 		{
 			var data            = ctx.Content!;

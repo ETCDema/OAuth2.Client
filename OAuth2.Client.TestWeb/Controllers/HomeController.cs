@@ -7,14 +7,30 @@ using OAuth2.Client.TestWeb.Models;
 
 namespace OAuth2.Client.TestWeb.Controllers
 {
+	/// <summary>
+	/// Single test controller
+	/// </summary>
 	public class HomeController : Controller
 	{
+		/// <summary>
+		/// Show page with clients and data of selected client
+		/// </summary>
+		/// <param name="cname">Selected client</param>
+		/// <returns></returns>
 		[Route("/{cname?}")]
 		public IActionResult Index(string? cname = null)
 		{
 			return View(_createModel(cname, null));
 		}
 
+		/// <summary>
+		/// Auth callback (return URL)
+		/// </summary>
+		/// <param name="cname">Selected client</param>
+		/// <param name="code">Code from service</param>
+		/// <param name="state">State data</param>
+		/// <returns></returns>
+		/// <exception cref="NotSupportedException"></exception>
 		[Route("/By/{cname}")]
 		public async Task<IActionResult> By(string cname, string code, string? state)
 		{
@@ -47,6 +63,12 @@ namespace OAuth2.Client.TestWeb.Controllers
 			return View("Index", vm);
 		}
 
+		/// <summary>
+		/// Create new client model with state
+		/// </summary>
+		/// <param name="cname">Selected client</param>
+		/// <param name="state">State data</param>
+		/// <returns></returns>
 		private ClientsModel _createModel(string? cname, string? state)
 		{
 			var m 				= new ClientsModel(HttpContext.RequestServices.GetServices<IClient>())

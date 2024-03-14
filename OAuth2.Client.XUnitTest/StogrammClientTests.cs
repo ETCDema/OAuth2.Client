@@ -5,6 +5,9 @@ using OAuth2.Client.XUnitTest.Core;
 
 namespace OAuth2.Client.XUnitTest
 {
+	/// <summary>
+	/// Тесты stogramm.xyz клиента
+	/// </summary>
 	public class StogrammClientTests : ClientTests<StogrammClientTests.StogrammService>
 	{
 		public class StogrammService : Service

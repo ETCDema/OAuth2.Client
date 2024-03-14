@@ -4,6 +4,9 @@ using RestSharp;
 
 namespace OAuth2.Client.For
 {
+	/// <summary>
+	/// OAuth2 client for Yandex with base UserInfo model
+	/// </summary>
 	public class Yandex : Yandex<UserInfo>
 	{
 		public Yandex(Options opt)
@@ -12,6 +15,10 @@ namespace OAuth2.Client.For
 		}
 	}
 
+	/// <summary>
+	/// OAuth2 client for Yandex
+	/// </summary>
+	/// <typeparam name="TUserInfo">Type of UserInfo model</typeparam>
 	public class Yandex<TUserInfo> : OAuth2Based<TUserInfo>
 		where TUserInfo : UserInfo, new()
 	{
@@ -20,45 +27,54 @@ namespace OAuth2.Client.For
 
 		private RestClient? _client;
 
+		/// <inheritdoc/>
 		public Yandex(Options opt)
 			: base(opt)
 		{
 		}
 
+		/// <inheritdoc/>
 		public override string Name =>	"Yandex";
 
+		/// <inheritdoc/>
 		protected override RestClient NewAccessCodeClient()
 		{
 			return _client ??= new RestClient(NewOptions("https://oauth.yandex.ru"));
 		}
 
+		/// <inheritdoc/>
 		protected override RestClient NewAccessTokenClient()
 		{
 			return NewAccessCodeClient();
 		}
 
+		/// <inheritdoc/>
 		protected override RestClient NewUserInfoClient()
 		{
 			return new RestClient(NewOptions("https://login.yandex.ru"));
 		}
 
+		/// <inheritdoc/>
 		protected override void InitLoginURIRequest(RestRequest request, string? state)
 		{
 			request.Resource    = "/authorize";
 		}
 
+		/// <inheritdoc/>
 		protected override async Task QueryAccessTokenAsync(Ctx ctx, CancellationToken cancellationToken = default)
 		{
 			ctx.Request.Resource        = "/token";
 			await base.QueryAccessTokenAsync(ctx, cancellationToken).ConfigureAwait(false);
 		}
 
+		/// <inheritdoc/>
 		protected override async Task QueryUserInfoAsync(Ctx ctx, CancellationToken cancellationToken = default)
 		{
 			ctx.Request.Resource        = "/info";
 			await base.QueryUserInfoAsync(ctx, cancellationToken).ConfigureAwait(false);
 		}
 
+		/// <inheritdoc/>
 		protected override TUserInfo ParseUserInfo(Ctx ctx)
 		{
 			var data            = ctx.Content!;

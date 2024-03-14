@@ -15,6 +15,7 @@ namespace OAuth2.Client
 	/// <summary>
 	/// For OAuth2 based clients
 	/// </summary>
+	/// <typeparam name="TUserInfo">Тип модели пользоввателя</typeparam>
 	public abstract class OAuth2Based<TUserInfo> : IClient
 		where TUserInfo : UserInfo
 	{
@@ -461,7 +462,7 @@ namespace OAuth2.Client
 			}
 		}
 
-
+		/// <inheritdoc/>
 		async Task<UserInfo> IClient.GetUserInfoAsync(IQueryCollection parameters, CancellationToken cancellationToken)
 		{
 			return await GetUserInfoAsync(parameters, cancellationToken);

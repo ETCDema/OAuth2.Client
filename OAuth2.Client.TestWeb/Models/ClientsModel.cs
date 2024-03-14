@@ -2,6 +2,9 @@
 
 namespace OAuth2.Client.TestWeb.Models
 {
+	/// <summary>
+	/// Client view model
+	/// </summary>
 	public class ClientsModel
 	{
 		public ClientsModel(IEnumerable<IClient> clients)
@@ -10,16 +13,22 @@ namespace OAuth2.Client.TestWeb.Models
 			Log                 = new List<string>();
 		}
 
+		/// <summary>All configured clients</summary>
 		public IList<IClient> Clients	{ get; set; }
 
+		/// <summary>Selected client</summary>
 		public IClient? Current			{ get; set; }
 
+		/// <summary>State data</summary>
 		public string? StateValue		{ get; set; }
 
+		/// <summary>Error message</summary>
 		public string? Error			{ get; set; }
 
+		/// <summary>User info from client</summary>
 		public UserInfo? User			{ get; set; }
 
+		/// <summary>Log of requests</summary>
 		public IList<string> Log		{ get; }
 	}
 }

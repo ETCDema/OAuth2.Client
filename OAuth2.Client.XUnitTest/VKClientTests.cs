@@ -5,6 +5,9 @@ using OAuth2.Client.XUnitTest.Core;
 
 namespace OAuth2.Client.XUnitTest
 {
+	/// <summary>
+	/// Тесты vk.com клиента
+	/// </summary>
 	public class VKClientTests : ClientTests<VKClientTests.VKService>
 	{
 		public class VKService : Service

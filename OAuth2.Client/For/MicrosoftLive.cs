@@ -4,6 +4,9 @@ using RestSharp;
 
 namespace OAuth2.Client.For
 {
+	/// <summary>
+	/// OAuth2 client for live.com with base UserInfo model
+	/// </summary>
 	public class MicrosoftLive : MicrosoftLive<UserInfo>
 	{
 		public MicrosoftLive(Options opt)
@@ -12,44 +15,56 @@ namespace OAuth2.Client.For
 		}
 	}
 
+	/// <summary>
+	/// OAuth2 client for live.com
+	/// </summary>
+	/// <typeparam name="TUserInfo">Type of UserInfo model</typeparam>
 	public class MicrosoftLive<TUserInfo> : OAuth2Based<TUserInfo>
 		where TUserInfo : UserInfo, new()
 	{
 		private RestClient? _client;
 
+		/// <inheritdoc/>
 		public MicrosoftLive(Options opt)
 			: base(opt)
 		{
 		}
 
+		/// <inheritdoc/>
 		public override string Name =>	"MicrosoftLive";
 
+		/// <inheritdoc/>
 		protected override RestClient NewAccessCodeClient()
 		{
 			return _client ??= new RestClient(NewOptions("https://login.live.com"));
 		}
 
+		/// <inheritdoc/>
 		protected override RestClient NewAccessTokenClient()
 		{
 			return NewAccessCodeClient();
 		}
 
+		/// <inheritdoc/>
 		protected override RestClient NewUserInfoClient()
 		{
 			return new RestClient(NewOptions("https://graph.microsoft.com/v1.0"));
 		}
 
+		/// <inheritdoc/>
 		protected override void InitLoginURIRequest(RestRequest request, string? state)
 		{
 			request.Resource    = "/oauth20_authorize.srf";
 		}
 
+		/// <inheritdoc/>
 		protected override async Task QueryAccessTokenAsync(Ctx ctx, CancellationToken cancellationToken = default)
 		{
 			ctx.Request.Resource        = "/oauth20_token.srf";
 			await base.QueryAccessTokenAsync(ctx, cancellationToken).ConfigureAwait(false);
 		}
 
+		/// <inheritdoc/>
 		protected override async Task QueryUserInfoAsync(Ctx ctx, CancellationToken cancellationToken = default)
 		{
 			ctx.Request.Resource        = "/me";
@@ -65,6 +80,15 @@ namespace OAuth2.Client.For
 			ctx.Content         = mainContent;
 		}
 
+		/// <summary>
+		/// Get avatar content for user
+		/// </summary>
+		/// <param name="ctx">Context</param>
+		/// <param name="url">URL for get avatar</param>
+		/// <param name="n">Name of avatar content in token data</param>
+		/// <param name="data">Token data</param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		private async Task _getAvatarAsync(Ctx ctx, string url, string n, TokensData data, CancellationToken cancellationToken)
 		{
 			ctx.Request         = new RestRequest(url);
@@ -73,6 +97,7 @@ namespace OAuth2.Client.For
 			if (ctx.RawContent!=null) data.Add(n, ctx.RawContent);
 		}
 
+		/// <inheritdoc/>
 		protected override TUserInfo ParseUserInfo(Ctx ctx)
 		{
 			var data            = ctx.Content!;

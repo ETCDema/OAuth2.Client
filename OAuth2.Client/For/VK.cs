@@ -4,6 +4,9 @@ using RestSharp;
 
 namespace OAuth2.Client.For
 {
+	/// <summary>
+	/// OAuth2 client for vk.com with base UserInfo model
+	/// </summary>
 	public class VK : VK<UserInfo>
 	{
 		public VK(Options opt)
@@ -12,38 +15,49 @@ namespace OAuth2.Client.For
 		}
 	}
 
+	/// <summary>
+	/// OAuth2 client for vk.com
+	/// </summary>
+	/// <typeparam name="TUserInfo">Type of UserInfo model</typeparam>
 	public class VK<TUserInfo> : OAuth2Based<TUserInfo>
 		where TUserInfo : UserInfo, new()
 	{
 		private RestClient? _client;
 
+		/// <inheritdoc/>
 		public VK(Options opt)
 			: base(opt)
 		{
 		}
 
+		/// <inheritdoc/>
 		public override string Name		=> "VK";
 
+		/// <inheritdoc/>
 		protected override RestClient NewAccessCodeClient()
 		{
 			return _client ??= new RestClient(NewOptions("https://oauth.vk.com"));
 		}
 
+		/// <inheritdoc/>
 		protected override RestClient NewAccessTokenClient()
 		{
 			return NewAccessCodeClient();
 		}
 
+		/// <inheritdoc/>
 		protected override RestClient NewUserInfoClient()
 		{
 			return new RestClient(NewOptions("https://api.vk.com"));
 		}
 
+		/// <inheritdoc/>
 		protected override void InitLoginURIRequest(RestRequest request, string? state)
 		{
 			request.Resource	= "/authorize";
 		}
 
+		/// <inheritdoc/>
 		protected override async Task QueryAccessTokenAsync(Ctx ctx, CancellationToken cancellationToken = default)
 		{
 			ctx.Request.Resource= "/access_token";
@@ -58,6 +72,7 @@ namespace OAuth2.Client.For
 			}
 		}
 
+		/// <inheritdoc/>
 		protected override async Task QueryUserInfoAsync(Ctx ctx, CancellationToken cancellationToken = default)
 		{
 			ctx.Request.Resource= "/method/users.get";
@@ -69,12 +84,14 @@ namespace OAuth2.Client.For
 			await base.QueryUserInfoAsync(ctx, cancellationToken).ConfigureAwait(false);
 		}
 
+		/// <inheritdoc/>
 		protected override Task AddAccessTokenAsync(Ctx ctx, CancellationToken cancellationToken = default)
 		{
 			ctx.Request.AddParameter("access_token", ctx.AccessToken);
 			return Task.CompletedTask;
 		}
 
+		/// <inheritdoc/>
 		protected override TUserInfo ParseUserInfo(Ctx ctx)
 		{
 			var data            = ctx.Content!;
