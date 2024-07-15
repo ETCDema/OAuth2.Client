@@ -8,6 +8,7 @@
     var hasCurrent              = Model!.Current!=null;
     var hasFinal                = hasCurrent && (Model!.User!=null || Model!.Log.Count>0);
     var stateValue              = Model!.StateValue ?? ("State:"+Guid.NewGuid());
+    var loginHint               = Model!.LoginHint;
 }
 @functions
 {
@@ -58,11 +59,15 @@
                 <div class="form-label text-primary">Scope</div>         <div class="form-control wrap-any mb-3">@opt.Scope</div>
                 <div class="form-label text-primary">RedirectURI</div>   <div class="form-control wrap-any mb-3">@opt.RedirectURI</div>
                 <div class="form-label text-primary">State value</div>   <div class="form-control wrap-any mb-3">@stateValue</div>
+                @if (loginHint!=null)
+                {
+                    <div class="form-label text-primary">Login hint</div>   <div class="form-control wrap-any mb-3">@loginHint</div>
+                }
 
                 @if(validOpt)
                 {
                     <div class="d-flex justify-content-center mt-3">
-                        <a href="@(Model.Current!.GetLoginURIAsync(stateValue).Result)" class="btn btn-primary">Login</a>
+                        <a href="@(Model.Current!.GetLoginURIAsync(stateValue, loginHint).Result)" class="btn btn-primary">Login</a>
                     </div>
                 }
             </form>

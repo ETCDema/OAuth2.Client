@@ -36,6 +36,11 @@ namespace OAuth2.Client.For
 		/// <inheritdoc/>
 		public override string Name =>	"Yandex";
 
+		public override string? GetHint(UserInfo info)
+		{
+			return info.Email;
+		}
+
 		/// <inheritdoc/>
 		protected override RestClient NewAccessCodeClient()
 		{
@@ -55,9 +60,11 @@ namespace OAuth2.Client.For
 		}
 
 		/// <inheritdoc/>
-		protected override void InitLoginURIRequest(RestRequest request, string? state)
+		protected override void InitLoginURIRequest(RestRequest request, string? state, string? hint)
 		{
 			request.Resource    = "/authorize";
+
+			if (!string.IsNullOrEmpty(hint)) request.AddParameter("login_hint", hint);
 		}
 
 		/// <inheritdoc/>

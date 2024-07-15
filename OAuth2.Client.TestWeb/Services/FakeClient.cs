@@ -41,11 +41,14 @@ namespace OAuth2.Client.TestWeb.Services
 		}
 
 		/// <inheritdoc/>
-		public override Task<string> GetLoginURIAsync(string? state = null, CancellationToken cancellationToken = default)
+		public override Task<string> GetLoginURIAsync(string? state = null, string? hint = null, CancellationToken cancellationToken = default)
 		{
 			var url             = Options.RedirectURI+"?code="+(_num++)+"@"+Guid.NewGuid();
 			if (!string.IsNullOrEmpty(state))
 				url             += "&state="+state;
+
+			if (!string.IsNullOrEmpty(hint))
+				url             += "&login_hint="+hint;
 
 			return Task.FromResult(url);
 		}
@@ -83,7 +86,7 @@ namespace OAuth2.Client.TestWeb.Services
 		}
 
 		/// <inheritdoc/>
-		protected override void InitLoginURIRequest(RestRequest request, string? state)
+		protected override void InitLoginURIRequest(RestRequest request, string? state, string? hint)
 		{
 			throw new NotSupportedException();
 		}

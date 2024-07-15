@@ -18,6 +18,9 @@ namespace OAuth2.Client.For
 	/// <summary>
 	/// OAuth2 client for GitHub
 	/// </summary>
+	/// <remarks>
+	/// Login hint not supported.
+	/// </remarks>
 	/// <typeparam name="TUserInfo">Type of UserInfo model</typeparam>
 	public class GitHub<TUserInfo> : OAuth2Based<TUserInfo>
 		where TUserInfo : UserInfo, new()
@@ -52,7 +55,7 @@ namespace OAuth2.Client.For
 		}
 
 		/// <inheritdoc/>
-		protected override void InitLoginURIRequest(RestRequest request, string? state)
+		protected override void InitLoginURIRequest(RestRequest request, string? state, string? hint)
 		{
 			request.Resource    = "/login/oauth/authorize";
 		}

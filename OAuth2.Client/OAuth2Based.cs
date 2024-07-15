@@ -99,7 +99,7 @@ namespace OAuth2.Client
 		/// <param name="state">Дополнительные данные, возвращаемые сервисом</param>
 		/// <param name="cancellationToken"></param>
 		/// <returns>URI на страницу авторизации сервиса</returns>
-		public virtual Task<string> GetLoginURIAsync(string? state = null, CancellationToken cancellationToken = default)
+		public virtual Task<string> GetLoginURIAsync(string? state = null, string? hint = null, CancellationToken cancellationToken = default)
 		{
 			var req				= new RestRequest()
 									.AddParameter("response_type",	"code")
@@ -112,7 +112,7 @@ namespace OAuth2.Client
 			if (!String.IsNullOrEmpty(state))
 				req.AddParameter("state", state);
 
-			InitLoginURIRequest(req, state);
+			InitLoginURIRequest(req, state, hint);
 
 			return Task.FromResult(AccessCodeClient.BuildUri(req).ToString());
 		}
@@ -121,7 +121,7 @@ namespace OAuth2.Client
 		/// Инициализировать запрос для входа на страницу авторизации сервиса
 		/// </summary>
 		/// <param name="request">Запрос для инициализации</param>
-		protected abstract void InitLoginURIRequest(RestRequest request, string? state);
+		protected abstract void InitLoginURIRequest(RestRequest request, string? state, string? hint);
 
 		/// <summary>
 		/// Получить информацию о пользователе по данным, полученными со страницы сервиса авторизации.
@@ -140,6 +140,16 @@ namespace OAuth2.Client
 			});
 
 			return GetUserInfoAsync(ctx, cancellationToken);
+		}
+
+		/// <summary>
+		/// Получить строку-подсказку для следующего входа
+		/// </summary>
+		/// <param name="info">Информация о пользователе, на основе которой формируется подсказка</param>
+		/// <returns></returns>
+		public virtual string? GetHint(UserInfo info)
+		{
+			return null;
 		}
 
 		/// <summary>

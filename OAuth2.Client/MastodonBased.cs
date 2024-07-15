@@ -7,6 +7,9 @@ namespace OAuth2.Client
 	/// <summary>
 	/// Для реализации клиентов к сервисам, сделанным на основе Mastodon
 	/// </summary>
+	/// <remarks>
+	/// Login hint not supported.
+	/// </remarks>
 	/// <typeparam name="TUserInfo">Тип модели пользоввателя</typeparam>
 	public abstract class MastodonBased<TUserInfo> : OAuth2Based<TUserInfo>
 		where TUserInfo : UserInfo, new()
@@ -30,7 +33,7 @@ namespace OAuth2.Client
 		}
 
 		/// <inheritdoc/>
-		protected override void InitLoginURIRequest(RestRequest request, string? state)
+		protected override void InitLoginURIRequest(RestRequest request, string? state, string? hint)
 		{
 			request.Resource    = "/oauth/authorize";
 		}

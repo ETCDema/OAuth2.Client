@@ -22,6 +22,9 @@ namespace OAuth2.Client.TestWeb.Models
 		/// <summary>State data</summary>
 		public string? StateValue		{ get; set; }
 
+		/// <summary>Login hint value</summary>
+		public string? LoginHint		{ get; set; }
+
 		/// <summary>Error message</summary>
 		public string? Error			{ get; set; }
 

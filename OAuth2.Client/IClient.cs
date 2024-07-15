@@ -18,7 +18,7 @@ namespace OAuth2
 		/// <param name="state">Дополнительные данные, возвращаемые сервисом</param>
 		/// <param name="cancellationToken"></param>
 		/// <returns>URI на страницу авторизации сервиса</returns>
-		Task<string> GetLoginURIAsync(string? state = null, CancellationToken cancellationToken = default);
+		Task<string> GetLoginURIAsync(string? state = null, string? hint = null, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Получить информацию о пользователе по данным, полученными со страницы сервиса авторизации.

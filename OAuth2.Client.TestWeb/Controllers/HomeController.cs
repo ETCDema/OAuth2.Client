@@ -49,6 +49,7 @@ namespace OAuth2.Client.TestWeb.Controllers
 					if (v2!=null)
 						vm.Log.Add(dir+v2);
 				});
+				vm.LoginHint    = client.GetHint(vm.User);
 			} catch(Exception? ex)
 			{
 				vm.Error        = ex.Message;
@@ -73,11 +74,11 @@ namespace OAuth2.Client.TestWeb.Controllers
 		{
 			var m 				= new ClientsModel(HttpContext.RequestServices.GetServices<IClient>())
 			{
-				StateValue      = state
+				StateValue      = state,				
 			};
 
 			if (!string.IsNullOrEmpty(cname))
-				m.Current		= m.Clients.FirstOrDefault(c => c.Name == cname);
+				m.Current       = m.Clients.FirstOrDefault(c => c.Name == cname);
 
 			return m;
 		}
