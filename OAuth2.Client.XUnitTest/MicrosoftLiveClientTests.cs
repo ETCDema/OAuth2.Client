@@ -31,7 +31,7 @@ namespace OAuth2.Client.XUnitTest
 							"application/json",
 							Encoding.UTF8.GetBytes(@"{""@odata.context"":""https://graph.microsoft.com/v1.0/$metadata#users/$entity"",""displayName"":""FName LName"",""surname"":""LName"",""givenName"":""FName"",""id"":""user-id"",""userPrincipalName"":""email@service"",""businessPhones"":[],""jobTitle"":null,""mail"":null,""mobilePhone"":null,""officeLocation"":null,""preferredLanguage"":null}"))
 						.Add("[GET]https://graph.microsoft.com/v1.0/me/photo/$value",
-							"Headers: [ Authorization: Bearer microsoft-live-access-token\nAccept: application/json, text/json, text/x-json, text/javascript, application/xml, text/xml\nUser-Agent: RestSharp/107\n ]",
+							"Headers: [ Authorization: Bearer microsoft-live-access-token\nUser-Agent: RestSharp/107\nAccept: application/json, text/json, text/x-json, text/javascript, application/xml, text/xml\n ]",
 							"image/jpeg",
 							Convert.FromBase64String("YXZhdGFyLWRhdGE="))
 				));
