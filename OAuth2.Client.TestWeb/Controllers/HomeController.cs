@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 using OAuth2.Client.Models;
 using OAuth2.Client.TestWeb.Models;
@@ -81,12 +79,6 @@ namespace OAuth2.Client.TestWeb.Controllers
 				m.Current       = m.Clients.FirstOrDefault(c => c.Name == cname);
 
 			return m;
-		}
-
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error()
-		{
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 	}
 }

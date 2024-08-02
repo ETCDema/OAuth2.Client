@@ -12,7 +12,7 @@ namespace OAuth2.Client
 	/// </remarks>
 	/// <typeparam name="TUserInfo">Тип модели пользоввателя</typeparam>
 	public abstract class MastodonBased<TUserInfo> : OAuth2Based<TUserInfo>
-		where TUserInfo : UserInfo, new()
+		where TUserInfo : IUserInfo, new()
 	{
 		/// <inheritdoc/>
 		public MastodonBased(Options opt)

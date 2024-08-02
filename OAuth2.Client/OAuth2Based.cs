@@ -17,7 +17,7 @@ namespace OAuth2.Client
 	/// </summary>
 	/// <typeparam name="TUserInfo">Тип модели пользоввателя</typeparam>
 	public abstract class OAuth2Based<TUserInfo> : IClient
-		where TUserInfo : UserInfo
+		where TUserInfo : IUserInfo
 	{
 		protected static readonly string ACCESSTOKENKEY	= "access_token";
 		protected static readonly string REFRESHTOKENKEY= "refresh_token";
@@ -147,7 +147,7 @@ namespace OAuth2.Client
 		/// </summary>
 		/// <param name="info">Информация о пользователе, на основе которой формируется подсказка</param>
 		/// <returns></returns>
-		public virtual string? GetHint(UserInfo info)
+		public virtual string? GetHint(IUserInfo info)
 		{
 			return null;
 		}
@@ -473,7 +473,7 @@ namespace OAuth2.Client
 		}
 
 		/// <inheritdoc/>
-		async Task<UserInfo> IClient.GetUserInfoAsync(IQueryCollection parameters, CancellationToken cancellationToken)
+		async Task<IUserInfo> IClient.GetUserInfoAsync(IQueryCollection parameters, CancellationToken cancellationToken)
 		{
 			return await GetUserInfoAsync(parameters, cancellationToken);
 		}

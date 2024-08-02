@@ -27,6 +27,6 @@ namespace OAuth2
 		/// <param name="parameters">Параметры запроса</param>
 		/// <param name="cancellationToken"></param>
 		/// <returns>Информация о пользователе, выполнившем вход через сервис авторизации.</returns>
-		Task<UserInfo> GetUserInfoAsync(IQueryCollection parameters, CancellationToken cancellationToken = default);
+		Task<IUserInfo> GetUserInfoAsync(IQueryCollection parameters, CancellationToken cancellationToken = default);
 	}
 }

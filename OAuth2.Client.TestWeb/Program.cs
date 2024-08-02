@@ -49,9 +49,7 @@ new WebHostBuilder()
 		var env					= appBuilder.ApplicationServices.GetRequiredService<IWebHostEnvironment>();
 #endif
 		if (env.IsDevelopment())
-		{
-			appBuilder.UseExceptionHandler("/Home/Error");
-		}
+			appBuilder.UseDeveloperExceptionPage();
 
 #if NET4
 		appBuilder

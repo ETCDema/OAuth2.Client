@@ -20,7 +20,7 @@ namespace OAuth2.Client.For
 	/// </summary>
 	/// <typeparam name="TUserInfo">Type of UserInfo model</typeparam>
 	public class Stogramm<TUserInfo> : MastodonBased<TUserInfo>
-		where TUserInfo : UserInfo, new()
+		where TUserInfo : IUserInfo, new()
 	{
 		private RestClient? _client;
 

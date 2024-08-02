@@ -20,7 +20,7 @@ namespace OAuth2.Client.For
 	/// </summary>
 	/// <typeparam name="TUserInfo">Type of UserInfo model</typeparam>
 	public class Google<TUserInfo> : OAuth2Based<TUserInfo>
-		where TUserInfo : UserInfo, new()
+		where TUserInfo : IUserInfo, new()
 	{
 		private RestClient? _client;
 
@@ -33,7 +33,7 @@ namespace OAuth2.Client.For
 		/// <inheritdoc/>
 		public override string Name =>	"Google";
 
-		public override string? GetHint(UserInfo info)
+		public override string? GetHint(IUserInfo info)
 		{
 			return info.Email;
 		}

@@ -20,7 +20,7 @@ namespace OAuth2.Client.For
 	/// </summary>
 	/// <typeparam name="TUserInfo">Type of UserInfo model</typeparam>
 	public class Yandex<TUserInfo> : OAuth2Based<TUserInfo>
-		where TUserInfo : UserInfo, new()
+		where TUserInfo : IUserInfo, new()
 	{
 		private static readonly string _AVATARBASEURI   = "https://avatars.yandex.net/get-yapic/";
 		private static readonly string _LARGE           = "islands-200";
@@ -36,7 +36,7 @@ namespace OAuth2.Client.For
 		/// <inheritdoc/>
 		public override string Name =>	"Yandex";
 
-		public override string? GetHint(UserInfo info)
+		public override string? GetHint(IUserInfo info)
 		{
 			return info.Email;
 		}
