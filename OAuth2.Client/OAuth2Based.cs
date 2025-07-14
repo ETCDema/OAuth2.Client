@@ -3,7 +3,14 @@ using System.Text;
 using System.Text.Json;
 using System.Web;
 
+#if MVC5
+using System;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
+using System.Threading;
+#else
 using Microsoft.AspNetCore.Http;
+#endif
 
 using OAuth2.Client.Models;
 
@@ -130,7 +137,11 @@ namespace OAuth2.Client
 		/// <param name="parameters">Параметры запроса</param>
 		/// <param name="cancellationToken"></param>
 		/// <returns>Информация о пользователе, выполнившем вход через сервис авторизации.</returns>
+#if MVC5
+		public Task<TUserInfo> GetUserInfoAsync(NameValueCollection parameters, CancellationToken cancellationToken = default)
+#else
 		public Task<TUserInfo> GetUserInfoAsync(IQueryCollection parameters, CancellationToken cancellationToken = default)
+#endif
 		{
 			// Контекст для получения данных
 			var ctx 			= CheckErrorAndSetState(new Ctx	// Проверяем, если ошибки и забираем переданное в GetLoginURIAsync значение state
@@ -163,7 +174,11 @@ namespace OAuth2.Client
 		/// <param name="onReq">Обработчик запроса/ответа (Request.URL, Request.Headers+Request.Body, Response.Content)</param>
 		/// <param name="cancellationToken"></param>
 		/// <returns>Информация о пользователе, выполнившем вход через сервис авторизации.</returns>
+#if MVC5
+		internal virtual Task<TUserInfo> GetUserInfoAsync(NameValueCollection parameters, Action<string, string?, string?> onReq, CancellationToken cancellationToken = default)
+#else
 		internal virtual Task<TUserInfo> GetUserInfoAsync(IQueryCollection parameters, Action<string, string?, string?> onReq, CancellationToken cancellationToken = default)
+#endif
 		{
 			// Контекст для получения данных
 			var ctx 			= CheckErrorAndSetState(new _dumpCtx(onReq)	// Проверяем, если ошибки и забираем переданное в GetLoginURIAsync значение state
@@ -473,7 +488,11 @@ namespace OAuth2.Client
 		}
 
 		/// <inheritdoc/>
+#if MVC5
+		async Task<IUserInfo> IClient.GetUserInfoAsync(NameValueCollection parameters, CancellationToken cancellationToken)
+#else
 		async Task<IUserInfo> IClient.GetUserInfoAsync(IQueryCollection parameters, CancellationToken cancellationToken)
+#endif
 		{
 			return await GetUserInfoAsync(parameters, cancellationToken);
 		}

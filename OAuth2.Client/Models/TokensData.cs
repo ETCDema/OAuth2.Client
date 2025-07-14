@@ -1,7 +1,11 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Text.Json;
 
+#if !MVC5
 using Microsoft.AspNetCore.Http;
+#endif
 
 namespace OAuth2.Client.Models
 {
@@ -23,6 +27,7 @@ namespace OAuth2.Client.Models
 			_add("", root);
 		}
 
+#if !MVC5
 		/// <summary>
 		/// From IQueryCollection source
 		/// </summary>
@@ -35,6 +40,7 @@ namespace OAuth2.Client.Models
 				_vals.Add(key, coll[key].ToString());
 			}
 		}
+#endif
 
 		/// <summary>
 		/// From NameValueCollection source

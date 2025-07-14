@@ -1,4 +1,7 @@
-﻿using OAuth2.Client.Models;
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+using OAuth2.Client.Models;
 
 using RestSharp;
 

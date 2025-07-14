@@ -1,6 +1,8 @@
 ﻿using System.Net.Http;
 
+#if !MVC5
 using Microsoft.Extensions.Configuration;
+#endif
 
 namespace OAuth2.Client.Models
 {
@@ -24,6 +26,7 @@ namespace OAuth2.Client.Models
 			RedirectURI         = redirectURI;
 		}
 
+#if !MVC5
 		/// <summary>
 		/// Create options from config
 		/// </summary>
@@ -36,6 +39,7 @@ namespace OAuth2.Client.Models
 			Scope               = cfg["Scope"];
 			RedirectURI         = cfg["RedirectURI"]	?? throw new ArgumentNullException(cfg.Path+":RedirectURI");
 		}
+#endif
 
 		/// <summary>
 		/// For testing only

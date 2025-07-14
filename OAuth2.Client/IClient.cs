@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿#if MVC5
+using System.Collections.Specialized;
+using System.Threading;
+using System.Threading.Tasks;
+#else
+using Microsoft.AspNetCore.Http;
+#endif
 
 using OAuth2.Client.Models;
 
@@ -27,6 +33,10 @@ namespace OAuth2
 		/// <param name="parameters">Параметры запроса</param>
 		/// <param name="cancellationToken"></param>
 		/// <returns>Информация о пользователе, выполнившем вход через сервис авторизации.</returns>
+#if MVC5
+		Task<IUserInfo> GetUserInfoAsync(NameValueCollection parameters, CancellationToken cancellationToken = default);
+#else
 		Task<IUserInfo> GetUserInfoAsync(IQueryCollection parameters, CancellationToken cancellationToken = default);
+#endif
 	}
 }
