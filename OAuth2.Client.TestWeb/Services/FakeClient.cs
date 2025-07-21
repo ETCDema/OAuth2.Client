@@ -41,7 +41,7 @@ namespace OAuth2.Client.TestWeb.Services
 		}
 
 		/// <inheritdoc/>
-		public override Task<string> GetLoginURIAsync(string? state = null, string? hint = null, CancellationToken cancellationToken = default)
+		public override string GetLoginURI(string? state = null, string? hint = null, string? redirectURI = null)
 		{
 			var url             = Options.RedirectURI+"?code="+(_num++)+"@"+Guid.NewGuid();
 			if (!string.IsNullOrEmpty(state))
@@ -50,7 +50,7 @@ namespace OAuth2.Client.TestWeb.Services
 			if (!string.IsNullOrEmpty(hint))
 				url             += "&login_hint="+hint;
 
-			return Task.FromResult(url);
+			return url;
 		}
 
 		/// <inheritdoc/>

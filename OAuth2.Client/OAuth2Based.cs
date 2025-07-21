@@ -100,18 +100,19 @@ namespace OAuth2.Client
 			};
 		}
 
-		/// <summary>
-		/// Получить URI на страницу авторизации сервиса
-		/// </summary>
-		/// <param name="state">Дополнительные данные, возвращаемые сервисом</param>
-		/// <param name="cancellationToken"></param>
-		/// <returns>URI на страницу авторизации сервиса</returns>
-		public virtual Task<string> GetLoginURIAsync(string? state = null, string? hint = null, CancellationToken cancellationToken = default)
+		/// <inheritdoc/>
+		public virtual Task<string> GetLoginURIAsync(string? state = null, string? hint = null, string? redirectURI = null, CancellationToken cancellationToken = default)
 		{
-			var req				= new RestRequest()
-									.AddParameter("response_type",	"code")
-									.AddParameter("client_id",		Options.ClientID)
-									.AddParameter("redirect_uri",   Options.RedirectURI);
+			return Task.FromResult(GetLoginURI(state, hint, redirectURI));
+		}
+
+		/// <inheritdoc/>
+		public virtual string GetLoginURI(string? state = null, string? hint = null, string? redirectURI = null)
+		{
+			var req             = new RestRequest()
+									.AddParameter("response_type",  "code")
+									.AddParameter("client_id",      Options.ClientID)
+									.AddParameter("redirect_uri",   string.IsNullOrEmpty(redirectURI) ? Options.RedirectURI : redirectURI);
 
 			if (!String.IsNullOrEmpty(Options.Scope))
 				req.AddParameter("scope", Options.Scope);
@@ -121,7 +122,7 @@ namespace OAuth2.Client
 
 			InitLoginURIRequest(req, state, hint);
 
-			return Task.FromResult(AccessCodeClient.BuildUri(req).ToString());
+			return AccessCodeClient.BuildUri(req).ToString();
 		}
 
 		/// <summary>
@@ -495,6 +496,17 @@ namespace OAuth2.Client
 #endif
 		{
 			return await GetUserInfoAsync(parameters, cancellationToken);
+		}
+
+#if MVC5
+		IUserInfo IClient.GetUserInfo(NameValueCollection parameters)
+#else
+		IUserInfo IClient.GetUserInfo(IQueryCollection parameters)
+#endif
+		{
+			using var token     = new CancellationTokenSource();
+			token.CancelAfter(TimeSpan.FromSeconds(15));
+			return GetUserInfoAsync(parameters, token.Token).Result;
 		}
 	}
 }
