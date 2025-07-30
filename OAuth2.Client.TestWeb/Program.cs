@@ -32,11 +32,23 @@ new WebHostBuilder()
 		var clientsCfg                  = ctx.Configuration.GetSection("OAuth2Clients");
 		foreach (var clientCfg in clientsCfg.GetChildren())
 		{
-			var opt                     = new Options(clientCfg);
 			var ctName                  = clientCfg.Key;
 			var ctype                   = Type.GetType(ctName, true)!;
-			var client                  = (IClient)Activator.CreateInstance(ctype, opt)!;
-			services.AddSingleton<IClient>(client);
+
+			var optionsType				= clientCfg["OptionsType"];
+			var otype                   = default(Type);
+			if (string.IsNullOrEmpty(optionsType))
+			{
+				var opt                 = new Options(clientCfg);
+				var client              = (IClient)Activator.CreateInstance(ctype, opt)!;
+				services.AddSingleton(client);
+			} else
+			{
+				otype                   = Type.GetType(optionsType, true)!;
+				var opt					= Activator.CreateInstance(otype, clientCfg);
+				var client              = (IClient)Activator.CreateInstance(ctype, opt)!;
+				services.AddSingleton(client);
+			}
 		}
 
 		services.AddMvc();
