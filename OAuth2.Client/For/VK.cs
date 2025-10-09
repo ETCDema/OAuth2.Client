@@ -8,7 +8,7 @@ using RestSharp;
 namespace OAuth2.Client.For
 {
 	/// <summary>
-	/// OAuth2 client for vk.com with base UserInfo model
+	/// OAuth2 client for vk.ru with base UserInfo model
 	/// </summary>
 	public class VK : VK<UserInfo>
 	{
@@ -19,7 +19,7 @@ namespace OAuth2.Client.For
 	}
 
 	/// <summary>
-	/// OAuth2 client for vk.com
+	/// OAuth2 client for vk.ru
 	/// </summary>
 	/// <remarks>
 	/// Login hint not supported.
@@ -29,6 +29,8 @@ namespace OAuth2.Client.For
 		where TUserInfo : IUserInfo, new()
 	{
 		private RestClient? _client;
+
+		private readonly string _domain = "vk.ru";
 
 		/// <inheritdoc/>
 		public VK(Options opt)
@@ -42,7 +44,7 @@ namespace OAuth2.Client.For
 		/// <inheritdoc/>
 		protected override RestClient NewAccessCodeClient()
 		{
-			return _client ??= new RestClient(NewOptions("https://oauth.vk.com"));
+			return _client ??= new RestClient(NewOptions("https://oauth."+_domain));
 		}
 
 		/// <inheritdoc/>
@@ -54,7 +56,7 @@ namespace OAuth2.Client.For
 		/// <inheritdoc/>
 		protected override RestClient NewUserInfoClient()
 		{
-			return new RestClient(NewOptions("https://api.vk.com"));
+			return new RestClient(NewOptions("https://api."+_domain));
 		}
 
 		/// <inheritdoc/>

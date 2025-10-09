@@ -8,11 +8,11 @@ Clients can create instance of the inherited user's data model - this is sometim
 The infrastructure is also prepared to verify work with services and testing data.
 
 ## Current Version and Status
-First release, version 0.1, I use in your projects. At the moment, work has been implemented:
+First release, version 1.0.11, I use in your projects. At the moment, work has been implemented:
 * GitHub
 * Google
 * MicrosoftLive
-* VK
+* VK (UPD 09.10.2025: domain changed vk.com -> vk.ru)
 * Yandex
 * Mastodon based (like Stogramm)
 
@@ -80,11 +80,11 @@ Steps to create a new client for the service:
 Так же подготовлена инфраструктура для проверки работы с сервисами и тестирования обмена данными.
 
 ## Текущая версия и статус
-Первый выпуск, версия 0.1, использую в своих проектах. На данный момент реализована работа с сервисами:
+Первый выпуск, версия 1.0.11, использую в своих проектах. На данный момент реализована работа с сервисами:
 * GitHub
 * Google
 * MicrosoftLive
-* VK
+* VK (обновление 09.10.2025: изменен домен vk.com -> vk.ru)
 * Yandex
 * На основе Mastodon (например Stogramm)
 
