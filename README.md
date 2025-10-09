@@ -13,6 +13,7 @@ First release, version 1.0.11, I use in your projects. At the moment, work has b
 * Google
 * MicrosoftLive
 * VK (UPD 09.10.2025: domain changed vk.com -> vk.ru)
+* VKID (OAuth2.1)
 * Yandex
 * Mastodon based (like Stogramm)
 
@@ -85,6 +86,7 @@ Steps to create a new client for the service:
 * Google
 * MicrosoftLive
 * VK (обновление 09.10.2025: изменен домен vk.com -> vk.ru)
+* VKID (OAuth2.1)
 * Yandex
 * На основе Mastodon (например Stogramm)
 

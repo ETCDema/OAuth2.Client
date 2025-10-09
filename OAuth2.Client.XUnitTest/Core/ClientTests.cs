@@ -4,13 +4,16 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Http;
 #endif
 
-using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Primitives;
 
 using OAuth2.Client.Models;
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using Xunit;
+
 
 namespace OAuth2.Client.XUnitTest.Core
 {
@@ -72,12 +75,17 @@ namespace OAuth2.Client.XUnitTest.Core
 		[Fact]
 		public async Task GetLoginURI()
 		{
-			var url             = await Client.GetLoginURIAsync();
+			var url             = await Client.GetLoginURIAsync(GetState());
 #if FIX_REST_ENCODING
 			Assert.Equal(ExpectedLoginURI.Replace("%3a", ":"), url);
 #else
 			Assert.Equal(ExpectedLoginURI, url);
 #endif
+		}
+
+		protected virtual string? GetState()
+		{
+			return null;
 		}
 
 		/// <summary>
@@ -87,7 +95,9 @@ namespace OAuth2.Client.XUnitTest.Core
 		public async Task GetUserInfo()
 		{
 			var client          = Client;
-			var callbackData    = new QueryCollection(QueryHelpers.ParseQuery("code=code-from-"+client.Name));
+			var query           = QueryHelpers.ParseQuery("code=code-from-"+client.Name);
+			InitReturnQuery(query);
+			var callbackData    = new QueryCollection(query);
 			var userInfo        = await client.GetUserInfoAsync(callbackData);
 
 			Assert.Equal(client.Name,		userInfo.ProviderName);
@@ -96,6 +106,10 @@ namespace OAuth2.Client.XUnitTest.Core
 			Assert.Equal("FName",			userInfo.FirstName);
 			Assert.Equal("LName",			userInfo.LastName);
 			Assert.Equal(AvatarURL,			userInfo.AvatarURL);
+		}
+
+		protected virtual void InitReturnQuery(Dictionary<string, StringValues> query)
+		{
 		}
 
 		/// <summary>
