@@ -29,7 +29,7 @@ namespace OAuth2.Client.For
 	/// Login hint not supported.
 	/// </remarks>
 	/// <typeparam name="TUserInfo">Type of UserInfo model</typeparam>
-	public class VKID<TUserInfo> : OAuth2Based<TUserInfo>
+	public class VKID<TUserInfo> : OAuth2_1Based<TUserInfo>
 		where TUserInfo : IUserInfo, new()
 	{
 		private RestClient? _client;
@@ -66,38 +66,14 @@ namespace OAuth2.Client.For
 		/// <inheritdoc/>
 		protected override void InitLoginURIRequest(RestRequest request, string? state, string? hint)
 		{
-			var codeVerifier    = Encoding.ASCII.GetBytes(_getCodeVerifier(state!));
-
-			using var hash      = SHA256.Create();
-			var codeChallenge   = hash.ComputeHash(codeVerifier);
-			var codeChallengeB64= _toBase64url(codeChallenge);
-
 			request.Resource    = "/authorize";
-			request.AddParameter("code_challenge", codeChallengeB64)
-				   .AddParameter("code_challenge_method", "S256");
-		}
-
-		private static string _toBase64url(byte[] data)
-		{
-			return Convert.ToBase64String(data).TrimEnd('=').Replace('+', '-').Replace('/', '_');
-		}
-
-		private string _getCodeVerifier(string state)
-		{
-			return string.IsNullOrEmpty(state)
-				 ? throw new Exception("Required state value")
-				 : _toBase64url(Encoding.UTF8.GetBytes(state));
 		}
 
 		/// <inheritdoc/>
 		protected override async Task QueryAccessTokenAsync(Ctx ctx, CancellationToken cancellationToken = default)
 		{
-			var codeVerifier    = _getCodeVerifier(ctx.Params.Get("state"));
-
 			ctx.Request.Resource= "/oauth2/auth";
-			ctx.Request.Parameters.RemoveParameter("client_secret");
 			ctx.Request.AddParameter("device_id", ctx.Params.Get("device_id"));
-			ctx.Request.AddParameter("code_verifier", codeVerifier);
 
 			await base.QueryAccessTokenAsync(ctx, cancellationToken).ConfigureAwait(false);
 			var data            = ctx.Content;
