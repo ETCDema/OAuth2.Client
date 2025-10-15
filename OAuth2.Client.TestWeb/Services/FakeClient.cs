@@ -67,7 +67,7 @@ namespace OAuth2.Client.TestWeb.Services
 		}
 
 		/// <inheritdoc/>
-		internal override Task<UserInfo> GetUserInfoAsync(IQueryCollection parameters, Action<string, string, string?> onReq, CancellationToken cancellationToken = default)
+		internal override Task<UserInfo> GetUserInfoAsync(IQueryCollection parameters, Action<string, string, string?> onReq, string? redirectURI = null, CancellationToken cancellationToken = default)
 		{
 			onReq(">>>", "Get AccessToken by ClientID+ClientSecret+Code request", null);
 			onReq("<<<", "application/json", "JSON with access token");

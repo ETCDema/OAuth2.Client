@@ -41,9 +41,9 @@ namespace OAuth2
 		/// <param name="cancellationToken"></param>
 		/// <returns>Информация о пользователе, выполнившем вход через сервис авторизации.</returns>
 #if MVC5
-		Task<IUserInfo> GetUserInfoAsync(NameValueCollection parameters, CancellationToken cancellationToken = default);
+		Task<IUserInfo> GetUserInfoAsync(NameValueCollection parameters, string? redirectURI = null, CancellationToken cancellationToken = default);
 #else
-		Task<IUserInfo> GetUserInfoAsync(IQueryCollection parameters, CancellationToken cancellationToken = default);
+		Task<IUserInfo> GetUserInfoAsync(IQueryCollection parameters, string? redirectURI = null, CancellationToken cancellationToken = default);
 #endif
 
 		/// <summary>
@@ -53,9 +53,9 @@ namespace OAuth2
 		/// <param name="parameters">Параметры запроса</param>
 		/// <returns>Информация о пользователе, выполнившем вход через сервис авторизации.</returns>
 #if MVC5
-		IUserInfo GetUserInfo(NameValueCollection parameters);
+		IUserInfo GetUserInfo(NameValueCollection parameters, string? redirectURI = null);
 #else
-		IUserInfo GetUserInfo(IQueryCollection parameters);
+		IUserInfo GetUserInfo(IQueryCollection parameters, string? redirectURI = null);
 #endif
 	}
 }

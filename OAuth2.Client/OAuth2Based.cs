@@ -139,15 +139,16 @@ namespace OAuth2.Client
 		/// <param name="cancellationToken"></param>
 		/// <returns>Информация о пользователе, выполнившем вход через сервис авторизации.</returns>
 #if MVC5
-		public Task<TUserInfo> GetUserInfoAsync(NameValueCollection parameters, CancellationToken cancellationToken = default)
+		public Task<TUserInfo> GetUserInfoAsync(NameValueCollection parameters, string? redirectURI = null, CancellationToken cancellationToken = default)
 #else
-		public Task<TUserInfo> GetUserInfoAsync(IQueryCollection parameters, CancellationToken cancellationToken = default)
+		public Task<TUserInfo> GetUserInfoAsync(IQueryCollection parameters, string? redirectURI = null, CancellationToken cancellationToken = default)
 #endif
 		{
 			// Контекст для получения данных
 			var ctx 			= CheckErrorAndSetState(new Ctx	// Проверяем, если ошибки и забираем переданное в GetLoginURIAsync значение state
 			{
 				GrantType       = "authorization_code",
+				RedirectURI		= redirectURI,
 				Params          = new TokensData(parameters)    // Приводим параметры к нужному виду
 			});
 
@@ -176,15 +177,16 @@ namespace OAuth2.Client
 		/// <param name="cancellationToken"></param>
 		/// <returns>Информация о пользователе, выполнившем вход через сервис авторизации.</returns>
 #if MVC5
-		internal virtual Task<TUserInfo> GetUserInfoAsync(NameValueCollection parameters, Action<string, string?, string?> onReq, CancellationToken cancellationToken = default)
+		internal virtual Task<TUserInfo> GetUserInfoAsync(NameValueCollection parameters, Action<string, string?, string?> onReq, string? redirectURI = null, CancellationToken cancellationToken = default)
 #else
-		internal virtual Task<TUserInfo> GetUserInfoAsync(IQueryCollection parameters, Action<string, string?, string?> onReq, CancellationToken cancellationToken = default)
+		internal virtual Task<TUserInfo> GetUserInfoAsync(IQueryCollection parameters, Action<string, string?, string?> onReq, string? redirectURI = null, CancellationToken cancellationToken = default)
 #endif
 		{
 			// Контекст для получения данных
 			var ctx 			= CheckErrorAndSetState(new _dumpCtx(onReq)	// Проверяем, если ошибки и забираем переданное в GetLoginURIAsync значение state
 			{
 				GrantType       = "authorization_code",
+				RedirectURI     = redirectURI,
 				Params          = new TokensData(parameters)    // Приводим параметры к нужному виду
 			});
 
@@ -309,7 +311,7 @@ namespace OAuth2.Client
 				request	.AddParameter("refresh_token",	ctx.Params.Get("refresh_token"));
 			else
 				request	.AddParameter("code",			ctx.Params.Get("code"))
-						.AddParameter("redirect_uri",	Options.RedirectURI);
+						.AddParameter("redirect_uri",	string.IsNullOrEmpty(ctx.RedirectURI) ? Options.RedirectURI : ctx.RedirectURI);
 
 			await QueryAccessTokenAsync(ctx, cancellationToken).ConfigureAwait(false);
 		}
@@ -404,6 +406,9 @@ namespace OAuth2.Client
 			/// <summary>Ответ</summary>
 			public virtual RestResponse? Response		{ get; set; }
 
+			/// <summary>Если передавали RedirectURI в <see cref="GetLoginURIAsync"/> или в <see cref="GetLoginURI"/>, то при получении AccessToken нужно передавать его же</summary>
+			public string? RedirectURI					{ get; internal set; }
+
 			/// <summary>Необработанный ответ</summary>
 			public string? RawContent;
 
@@ -490,23 +495,23 @@ namespace OAuth2.Client
 
 		/// <inheritdoc/>
 #if MVC5
-		async Task<IUserInfo> IClient.GetUserInfoAsync(NameValueCollection parameters, CancellationToken cancellationToken)
+		async Task<IUserInfo> IClient.GetUserInfoAsync(NameValueCollection parameters, string? redirectURI, CancellationToken cancellationToken)
 #else
-		async Task<IUserInfo> IClient.GetUserInfoAsync(IQueryCollection parameters, CancellationToken cancellationToken)
+		async Task<IUserInfo> IClient.GetUserInfoAsync(IQueryCollection parameters, string? redirectURI, CancellationToken cancellationToken)
 #endif
 		{
-			return await GetUserInfoAsync(parameters, cancellationToken);
+			return await GetUserInfoAsync(parameters, redirectURI, cancellationToken);
 		}
 
 #if MVC5
-		IUserInfo IClient.GetUserInfo(NameValueCollection parameters)
+		IUserInfo IClient.GetUserInfo(NameValueCollection parameters, string? redirectURI)
 #else
-		IUserInfo IClient.GetUserInfo(IQueryCollection parameters)
+		IUserInfo IClient.GetUserInfo(IQueryCollection parameters, string? redirectURI)
 #endif
 		{
 			using var token     = new CancellationTokenSource();
 			token.CancelAfter(TimeSpan.FromSeconds(15));
-			return GetUserInfoAsync(parameters, token.Token).Result;
+			return GetUserInfoAsync(parameters, redirectURI, token.Token).Result;
 		}
 	}
 }
