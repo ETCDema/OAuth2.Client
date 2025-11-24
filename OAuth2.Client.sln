@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth2.Client.TestWeb", "OA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth2.Client.Legacy", "OAuth2.Client.Legacy\OAuth2.Client.Legacy.csproj", "{21DC2F2E-B8B6-D767-9DD5-30A8B743439B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth2.Client.TestWebLegacy", "OAuth2.Client.TestWebLegacy\OAuth2.Client.TestWebLegacy.csproj", "{CA388C3C-DDC0-4A2C-9E45-A8721E136E04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{21DC2F2E-B8B6-D767-9DD5-30A8B743439B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21DC2F2E-B8B6-D767-9DD5-30A8B743439B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21DC2F2E-B8B6-D767-9DD5-30A8B743439B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA388C3C-DDC0-4A2C-9E45-A8721E136E04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA388C3C-DDC0-4A2C-9E45-A8721E136E04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA388C3C-DDC0-4A2C-9E45-A8721E136E04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA388C3C-DDC0-4A2C-9E45-A8721E136E04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
