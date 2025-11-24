@@ -17,6 +17,8 @@ First release, version 1.0.11, I use in your projects. At the moment, work has b
 * Yandex
 * Mastodon based (like Stogramm)
 
+**UPD 24.11.2025:** Added NET10 target in version 1.0.15.
+
 A test site has been made to verify work with services. XUnit tests are made as close as possible to real work, but without real access to services
 
 ## Usage
@@ -89,6 +91,8 @@ Steps to create a new client for the service:
 * VKID (OAuth2.1)
 * Yandex
 * На основе Mastodon (например Stogramm)
+
+**Обновление 24.11.2025:** Добавлена сборка для NET10 в версии 1.0.15.
 
 Сделан тестовый сайт для проверки работы с сервисами. Сделаны тесты, максимально приближенные к реальной работе, но без реального обращения к сервисам.
 
