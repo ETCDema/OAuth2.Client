@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net4.8</TargetFramework>
 		<LangVersion>latest</LangVersion>
-		<Version>1.0.14</Version>
+		<Version>1.0.15</Version>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<RepositoryUrl>https://github.com/ETCDema/OAuth2.Client</RepositoryUrl>
@@ -34,7 +34,7 @@
 		<Compile Include="..\OAuth2.Client\**\*.cs" />
 		<Compile Remove="..\OAuth2.Client\obj\**" />
 
-		<PackageReference Include="RestSharp" Version="112.1.0" />
+		<PackageReference Include="RestSharp" Version="114.0.0" />
 	</ItemGroup>
 
 </Project>

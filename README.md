@@ -19,6 +19,8 @@ First release, version 1.0.11, I use in your projects. At the moment, work has b
 
 **UPD 24.11.2025:** Added NET10 target in version 1.0.15.
 
+**UPD 14.05.2026:** Update RestSharp to 114.0.0.
+
 A test site has been made to verify work with services. XUnit tests are made as close as possible to real work, but without real access to services
 
 ## Usage
@@ -93,6 +95,8 @@ Steps to create a new client for the service:
 * На основе Mastodon (например Stogramm)
 
 **Обновление 24.11.2025:** Добавлена сборка для NET10 в версии 1.0.15.
+
+**Обновление 14.05.2026:** RestSharp обновлен до версии 114.0.0.
 
 Сделан тестовый сайт для проверки работы с сервисами. Сделаны тесты, максимально приближенные к реальной работе, но без реального обращения к сервисам.
 
